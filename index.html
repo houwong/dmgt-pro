@@ -544,13 +544,13 @@
     if (state.type === "trial") { renderSummary(); updateCta(); return; }
     var my = ++quoteSeq;
     $("sTotal").classList.add("loading");
-    call("quote", { edition: state.edition, duration: state.duration, code: state.code }).then(function (q) {
+    call("quote", { edition: state.edition, duration: state.duration, code: state.code, email: $("email").value.trim() }).then(function (q) {
       if (my !== quoteSeq) return;
       $("sTotal").classList.remove("loading");
       if (!q || !q.ok) { if (state.code) { $("codeMsg").textContent = "Could not check the code, please try again."; $("codeMsg").className = "codemsg no"; } return; }
       last = q;
       var m = $("codeMsg");
-      if (state.code) { m.textContent = q.code_ok ? q.code_msg + " applied" : q.code_msg; m.className = "codemsg " + (q.code_ok ? "ok" : "no"); if (!q.code_ok) state.code = ""; }
+      if (state.code) { m.textContent = q.code_ok ? q.code_msg + " applied" : q.code_msg; m.className = "codemsg " + (q.code_ok ? "ok" : "no"); if (!q.code_ok && !q.code_personal) state.code = ""; }
       else { m.textContent = ""; m.className = "codemsg"; }
       renderSummary(); updateCta();
     }).catch(function () { if (my === quoteSeq) $("sTotal").classList.remove("loading"); });
@@ -595,6 +595,7 @@
     $("codeMsg").textContent = state.code ? "Checking..." : ""; $("codeMsg").className = "codemsg";
     refreshQuote();
   });
+  $("email").addEventListener("change", function () { if (state.code) refreshQuote(); });   // personal codes depend on the email
   $("code").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); $("applyCode").click(); } });
   $("key").addEventListener("input", function () {
     var v = this.value.toUpperCase().replace(/[^0-9A-Z]/g, "");
