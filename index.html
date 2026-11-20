@@ -3,187 +3,262 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DMGT Pro · Get your licence</title>
-<meta name="description" content="Order or renew DMGT Pro, the trade management panel for MetaTrader 5. Secure payment, licence key by email.">
-<meta name="theme-color" content="#0a0b0e">
-<meta property="og:title" content="DMGT Pro · Get your licence">
-<meta property="og:description" content="Break-even, smart trailing, profit claiming and risk guards for MetaTrader 5.">
+<title>DMGT Pro - Get your licence</title>
+<meta name="description" content="Order, renew or try DMGT Pro, the one-click trade manager for MetaTrader 5. Secure Stripe checkout, licence key by email.">
+<meta name="theme-color" content="#0b0c0f">
+<meta property="og:title" content="DMGT Pro - one-click trade manager for MT5">
+<meta property="og:description" content="Break-even, trailing, profit claiming and risk guards for MetaTrader 5.">
 <meta property="og:type" content="website">
+<meta property="og:image" content="img/panel-graphite.png">
 <meta name="robots" content="noindex">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2314161c'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='800' font-size='15' fill='%23e8b63e' text-anchor='middle'%3EDM%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
 <style>
+  /* Shape rule: buttons + chips = pill, cards = 20px, inputs + tiles = 12px. One accent: gold. Page theme: dark (brand). */
   :root {
-    --bg: #0a0b0e; --panel: #111318; --panel2: #15181e; --line: rgba(255,255,255,.08); --line2: rgba(255,255,255,.14);
-    --text: #eef1f6; --dim: #8b91a1; --mute: #5f6574; --gold: #e8b63e; --gold2: #f5d17a; --ink: #14161c;
-    --green: #2ed692; --red: #ff6b78; --r: 14px;
+    --bg: #0b0c0f; --bg2: #101216; --panel: #13151a; --panel2: #181b21; --line: rgba(255,255,255,.07); --line2: rgba(255,255,255,.13);
+    --text: #eceef3; --dim: #9aa0ae; --mute: #6d7382; --gold: #e8b63e; --gold2: #f4cf72; --gold3: #b98b24; --ink: #17140c;
+    --ok: #3ccf8e; --bad: #ff7a85;
+    --ease: cubic-bezier(.16, 1, .3, 1);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { -webkit-text-size-adjust: 100%; }
-  body { font-family: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); min-height: 100vh;
-         -webkit-font-smoothing: antialiased; line-height: 1.5; }
-  body::before { content: ""; position: fixed; inset: 0; pointer-events: none;
-    background: radial-gradient(900px 420px at 50% -120px, rgba(232,182,62,.16), transparent 70%),
-                linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px) 0 0 / 100% 56px; mask-image: linear-gradient(#000 0, transparent 720px); }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body { font-family: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); min-height: 100dvh;
+         -webkit-font-smoothing: antialiased; line-height: 1.5; overflow-x: hidden; }
+  body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 1; opacity: .05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
   a { color: var(--gold2); }
-  .wrap { position: relative; max-width: 1080px; margin: 0 auto; padding: 0 20px 64px; }
+  .wrap { position: relative; z-index: 2; max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+  i.ph, i.ph-bold, i.ph-fill { line-height: 1; }
 
   /* top bar */
   .top { display: flex; align-items: center; justify-content: space-between; height: 68px; }
-  .logo { display: flex; align-items: baseline; gap: 7px; text-decoration: none; }
-  .logo b { font-weight: 800; font-size: 21px; letter-spacing: .5px; color: var(--gold); }
+  .logo { display: flex; align-items: baseline; gap: 8px; text-decoration: none; }
+  .logo b { font-weight: 800; font-size: 21px; letter-spacing: .4px; color: var(--gold); }
   .logo span { font-weight: 600; font-size: 11px; letter-spacing: 4px; color: var(--text); }
   .secure { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--dim); }
-  .secure svg { width: 15px; height: 15px; color: var(--green); }
+  .secure i { font-size: 16px; color: var(--gold); }
 
-  /* hero */
-  .hero { text-align: center; padding: 44px 0 36px; }
-  .eyebrow { display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 14px; border: 1px solid var(--line2); border-radius: 99px;
-             font-size: 12.5px; color: var(--dim); background: rgba(255,255,255,.02); }
-  .eyebrow i { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 10px var(--gold); }
-  h1 { font-size: clamp(32px, 5vw, 50px); line-height: 1.08; letter-spacing: -1.5px; font-weight: 700; margin: 18px auto 14px; max-width: 760px; }
-  h1 em { font-style: normal; background: linear-gradient(100deg, #b78523, var(--gold) 35%, var(--gold2) 55%, var(--gold)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .lead { color: var(--dim); font-size: 17px; max-width: 560px; margin: 0 auto; }
+  /* hero: asymmetric split */
+  .hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: 40px; align-items: center; padding: 44px 0 64px; min-height: min(640px, calc(100dvh - 68px)); }
+  .sale { display: inline-flex; align-items: center; gap: 10px; height: 34px; padding: 0 16px 0 6px; border-radius: 99px;
+          background: rgba(232,182,62,.1); border: 1px solid rgba(232,182,62,.32); color: var(--gold2); font-size: 13.5px; font-weight: 600; }
+  .sale .tag { height: 24px; padding: 0 10px; border-radius: 99px; background: var(--gold); color: var(--ink); font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; }
+  .sale .clock { font-family: "Geist Mono", monospace; font-weight: 600; color: var(--text); letter-spacing: .3px; }
+  h1 { font-size: clamp(36px, 5.2vw, 60px); line-height: 1.04; letter-spacing: -2px; font-weight: 700; margin: 22px 0 18px; max-width: 13ch; }
+  h1 b { color: var(--gold); font-weight: 700; }
+  .lead { color: var(--dim); font-size: 18px; max-width: 46ch; }
+  .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
 
-  /* layout */
-  .grid { display: grid; grid-template-columns: 1fr 380px; gap: 22px; align-items: start; }
+  /* buttons */
+  .btn { position: relative; isolation: isolate; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 10px; height: 54px;
+         padding: 0 28px; border-radius: 99px; border: 0; cursor: pointer; font: 700 16px "Geist", sans-serif; text-decoration: none; white-space: nowrap;
+         transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .2s, color .2s; }
+  .btn i { font-size: 18px; transition: transform .35s var(--ease); }
+  .btn:hover i.go { transform: translateX(4px); }
+  .btn:active { transform: scale(.97); }
+  .btn-gold { background: linear-gradient(180deg, var(--gold2), var(--gold) 55%, #d9a22c); color: var(--ink);
+              box-shadow: inset 0 1px 0 rgba(255,255,255,.55), inset 0 -2px 0 rgba(120,80,10,.35), 0 14px 34px -12px rgba(232,182,62,.55); }
+  .btn-gold::before { content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; left: -60%; width: 45%; transform: skewX(-20deg) translateX(0);
+                      background: linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent); opacity: 0; }
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: inset 0 1px 0 rgba(255,255,255,.55), inset 0 -2px 0 rgba(120,80,10,.35), 0 20px 44px -12px rgba(232,182,62,.7); }
+  .btn-gold:hover::before { opacity: 1; animation: sheen .9s var(--ease); }
+  .btn-gold:active { transform: translateY(0) scale(.97); }
+  @keyframes sheen { from { left: -60%; } to { left: 130%; } }
+  .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--line2); }
+  .btn-ghost:hover { border-color: rgba(232,182,62,.6); color: var(--gold2); transform: translateY(-2px); }
+  .btn[disabled] { cursor: wait; opacity: .85; }
+  .btn .spin { width: 18px; height: 18px; border-radius: 50%; border: 2.5px solid rgba(23,20,12,.25); border-top-color: var(--ink); animation: sp .7s linear infinite; display: none; }
+  .btn.busy .spin { display: block; } .btn.busy i.go { display: none; }
+  @keyframes sp { to { transform: rotate(360deg); } }
+
+  /* hero visual: real panel screenshots */
+  .shots { position: relative; height: 560px; }
+  .shots img { position: absolute; display: block; height: auto; border-radius: 14px; border: 1px solid var(--line2);
+               box-shadow: 0 40px 80px -30px rgba(0,0,0,.8), 0 0 0 1px rgba(0,0,0,.4); transition: transform .6s var(--ease); }
+  .shots .back { width: 270px; right: 6%; top: 46px; transform: rotate(5deg); opacity: .55; filter: saturate(.8); }
+  .shots .front { width: 290px; left: 6%; top: 0; transform: rotate(-2deg); }
+  .shots:hover .front { transform: rotate(0) translateY(-6px); }
+  .shots:hover .back { transform: rotate(7deg) translateX(10px); }
+  .shots::before { content: ""; position: absolute; inset: 12% 8% 6% 8%; border-radius: 50%; background: radial-gradient(closest-side, rgba(232,182,62,.16), transparent); }
+
+  /* order section */
+  .order { display: grid; grid-template-columns: 1fr 370px; gap: 26px; align-items: start; padding-bottom: 72px; scroll-margin-top: 16px; }
   .card { background: linear-gradient(180deg, var(--panel2), var(--panel)); border: 1px solid var(--line); border-radius: 20px; }
-  form.card { padding: 28px; }
-  aside.card { padding: 24px; position: sticky; top: 20px; }
+  form.card { padding: 30px; }
+  h2 { font-size: 28px; letter-spacing: -.8px; line-height: 1.15; margin-bottom: 20px; }
 
-  .seg { display: grid; grid-template-columns: 1fr 1fr; padding: 4px; gap: 4px; background: #0c0d11; border: 1px solid var(--line); border-radius: 12px; }
-  .seg button { height: 40px; border: 0; border-radius: 9px; background: transparent; color: var(--dim); font: 600 14px "Geist", sans-serif; cursor: pointer; transition: background .15s, color .15s; }
-  .seg button[aria-pressed="true"] { background: #23262e; color: var(--text); box-shadow: 0 1px 0 rgba(255,255,255,.06) inset, 0 4px 14px rgba(0,0,0,.35); }
-  .seg button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; padding: 4px; gap: 4px; background: #0c0d11; border: 1px solid var(--line); border-radius: 99px; }
+  .seg button { height: 42px; border: 0; border-radius: 99px; background: transparent; color: var(--dim); font: 600 14px "Geist", sans-serif; cursor: pointer;
+                display: inline-flex; align-items: center; justify-content: center; gap: 7px; transition: background .2s, color .2s, transform .2s var(--ease); }
+  .seg button i { font-size: 16px; }
+  .seg button:hover { color: var(--text); }
+  .seg button:active { transform: scale(.97); }
+  .seg button[aria-pressed="true"] { background: #262a33; color: var(--text); box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 6px 16px rgba(0,0,0,.35); }
+  .seg button[aria-pressed="true"] i { color: var(--gold); }
+  .seg button:focus-visible, .plan:focus-within, .check input:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
   .sec { margin-top: 26px; }
-  .label { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 9px; }
-  .label small { font-weight: 500; color: var(--mute); font-size: 12px; }
+  .label { display: flex; justify-content: space-between; align-items: baseline; font-size: 13.5px; font-weight: 600; margin-bottom: 9px; }
+  .label small { font-weight: 500; color: var(--mute); font-size: 12.5px; }
   .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 
-  /* plan cards */
+  /* plan tiles */
   .plans { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .plan { position: relative; display: block; cursor: pointer; border: 1px solid var(--line); border-radius: var(--r); padding: 16px 16px 14px; background: #0f1115;
-          transition: border-color .15s, background .15s; }
+  .plan { position: relative; display: block; cursor: pointer; border: 1px solid var(--line); border-radius: 12px; padding: 18px; background: #0f1115;
+          transition: border-color .2s, background .2s, transform .25s var(--ease); }
   .plan input { position: absolute; opacity: 0; pointer-events: none; }
-  .plan:hover { border-color: var(--line2); }
-  .plan.on { border-color: var(--gold); background: linear-gradient(180deg, rgba(232,182,62,.07), rgba(232,182,62,.015)); box-shadow: 0 0 0 3px rgba(232,182,62,.12); }
-  .plan .ph { display: flex; align-items: center; justify-content: space-between; }
-  .plan .nm { font-weight: 700; font-size: 16px; letter-spacing: .5px; }
-  .plan .dot { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--line2); display: grid; place-items: center; }
-  .plan.on .dot { border-color: var(--gold); } .plan.on .dot::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); }
-  .plan .ds { color: var(--dim); font-size: 13px; margin-top: 4px; }
-  .plan .price { font-weight: 700; font-size: 15px; margin-top: 8px; color: var(--gold2); }
-  .plan ul { list-style: none; margin-top: 10px; display: grid; gap: 5px; }
-  .plan li { display: flex; gap: 8px; font-size: 12.5px; color: #c2c7d2; }
-  .plan li svg { flex: none; width: 14px; height: 14px; margin-top: 3px; color: var(--green); }
-  .badge { position: absolute; top: -10px; right: 14px; font-size: 11px; font-weight: 700; letter-spacing: .4px; color: var(--ink); background: var(--gold); padding: 2px 9px; border-radius: 99px; }
+  .plan:hover { border-color: var(--line2); transform: translateY(-2px); }
+  .plan:active { transform: scale(.985); }
+  .plan.on { border-color: var(--gold); background: linear-gradient(180deg, rgba(232,182,62,.08), rgba(232,182,62,.015)); box-shadow: 0 0 0 3px rgba(232,182,62,.12); }
+  .plan .ph-row { display: flex; align-items: center; justify-content: space-between; }
+  .plan .nm { font-weight: 800; font-size: 17px; letter-spacing: .6px; }
+  .plan .radio { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--line2); display: grid; place-items: center; transition: border-color .2s; }
+  .plan.on .radio { border-color: var(--gold); }
+  .plan .radio::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--gold); transform: scale(0); transition: transform .3s var(--ease); }
+  .plan.on .radio::after { transform: scale(1); }
+  .plan .ds { color: var(--dim); font-size: 13px; margin-top: 3px; }
+  .price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 8px; margin-top: 12px; }
+  .price s { color: var(--mute); font-size: 14px; }
+  .price b { font-size: 26px; letter-spacing: -.8px; color: var(--text); font-weight: 700; }
+  .price small { color: var(--dim); font-size: 13px; }
+  .save { position: absolute; top: -11px; right: 14px; height: 22px; padding: 0 10px; border-radius: 99px; background: var(--gold); color: var(--ink);
+          font-size: 11.5px; font-weight: 700; display: inline-flex; align-items: center; }
+  .plan ul { list-style: none; margin-top: 12px; display: grid; gap: 6px; }
+  .plan li { display: flex; gap: 8px; font-size: 13px; color: #c5c9d3; }
+  .plan li i { flex: none; color: var(--gold); font-size: 15px; margin-top: 2px; }
+  .trialbox { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: start; padding: 18px; border-radius: 12px;
+              border: 1px solid rgba(232,182,62,.35); background: linear-gradient(180deg, rgba(232,182,62,.08), rgba(232,182,62,.02)); }
+  .trialbox > i { font-size: 28px; color: var(--gold); }
+  .trialbox b { font-size: 17px; display: block; }
+  .trialbox p { color: var(--dim); font-size: 14px; margin-top: 4px; }
 
   /* inputs */
   .field { display: flex; flex-direction: column; }
-  input[type=text], input[type=email], textarea {
-    width: 100%; height: 46px; padding: 0 14px; border-radius: 11px; border: 1px solid var(--line2); background: #0c0d11; color: var(--text);
-    font: 500 15px "Geist", sans-serif; transition: border-color .15s, box-shadow .15s; }
-  textarea { height: 84px; padding: 12px 14px; resize: vertical; line-height: 1.45; }
-  input::placeholder, textarea::placeholder { color: #4d5260; }
-  input:focus, textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(232,182,62,.16); }
+  input[type=text], input[type=email], textarea { width: 100%; height: 48px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--line2); background: #0c0d11;
+    color: var(--text); font: 500 15px "Geist", sans-serif; transition: border-color .2s, box-shadow .2s; }
+  textarea { height: 86px; padding: 12px 14px; resize: vertical; line-height: 1.45; }
+  input::placeholder, textarea::placeholder { color: #6a7080; }
+  input:focus, textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(232,182,62,.18); }
   .mono { font-family: "Geist Mono", ui-monospace, monospace !important; letter-spacing: 1px; text-transform: uppercase; }
-  .help { font-size: 12px; color: var(--mute); margin-top: 6px; }
-  .bad input, .bad textarea { border-color: var(--red); }
-  .err { display: none; font-size: 12px; color: var(--red); margin-top: 6px; }
+  .help { font-size: 12.5px; color: var(--mute); margin-top: 7px; }
+  .bad input, .bad textarea { border-color: var(--bad); }
+  .err { display: none; font-size: 12.5px; color: var(--bad); margin-top: 7px; }
   .bad .err { display: block; }
   .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-
-  .check { display: flex; gap: 11px; align-items: flex-start; font-size: 13.5px; color: var(--dim); cursor: pointer; }
-  .check input { appearance: none; flex: none; width: 19px; height: 19px; margin-top: 1px; border-radius: 6px; border: 1.5px solid var(--line2); background: #0c0d11; cursor: pointer; display: grid; place-items: center; }
+  .coderow { display: grid; grid-template-columns: 1fr auto; gap: 10px; }
+  .apply { height: 48px; padding: 0 22px; border-radius: 99px; border: 1px solid var(--line2); background: #1c1f26; color: var(--text); font: 600 14px "Geist", sans-serif;
+           cursor: pointer; transition: border-color .2s, color .2s, transform .2s var(--ease); }
+  .apply:hover { border-color: var(--gold); color: var(--gold2); } .apply:active { transform: scale(.96); }
+  .codemsg { font-size: 13px; margin-top: 8px; min-height: 18px; color: var(--dim); }
+  .codemsg.ok { color: var(--ok); } .codemsg.no { color: var(--bad); }
+  .check { display: flex; gap: 12px; align-items: flex-start; font-size: 13.5px; color: var(--dim); cursor: pointer; }
+  .check input { appearance: none; flex: none; width: 20px; height: 20px; margin-top: 1px; border-radius: 6px; border: 1.5px solid var(--line2); background: #0c0d11; cursor: pointer; display: grid; place-items: center; }
   .check input:checked { background: var(--gold); border-color: var(--gold); }
   .check input:checked::after { content: ""; width: 9px; height: 5px; border: 2px solid var(--ink); border-top: 0; border-right: 0; transform: rotate(-45deg) translate(1px, -1px); }
-  .check input:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
-  .check.bad { color: var(--red); }
-
-  .cta { margin-top: 24px; width: 100%; height: 52px; border: 0; border-radius: 99px; background: var(--gold); color: var(--ink); cursor: pointer;
-         font: 700 16px "Geist", sans-serif; display: flex; align-items: center; justify-content: center; gap: 10px;
-         box-shadow: 0 10px 30px rgba(232,182,62,.22), inset 0 1px 0 rgba(255,255,255,.45); transition: transform .12s, filter .15s; }
-  .cta:hover { filter: brightness(1.06); } .cta:active { transform: translateY(1px); }
-  .cta[disabled] { opacity: .7; cursor: wait; }
-  .spin { width: 17px; height: 17px; border-radius: 50%; border: 2.5px solid rgba(20,22,28,.3); border-top-color: var(--ink); animation: sp .7s linear infinite; display: none; }
-  .busy .spin { display: block; }
-  @keyframes sp { to { transform: rotate(360deg); } }
-  .trust { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 18px; margin-top: 14px; font-size: 12.5px; color: var(--mute); }
-  .trust span { display: inline-flex; align-items: center; gap: 6px; } .trust svg { width: 14px; height: 14px; color: var(--dim); }
-  .loading { opacity: .55; }
-  .formerr { display: none; margin-top: 14px; padding: 11px 14px; border-radius: 11px; border: 1px solid rgba(255,107,120,.35); background: rgba(255,107,120,.07); color: #ffb3ba; font-size: 13.5px; }
-
-  /* discount code */
-  .coderow { display: grid; grid-template-columns: 1fr auto; gap: 10px; }
-  .apply { height: 46px; padding: 0 20px; border-radius: 11px; border: 1px solid var(--line2); background: #1b1e25; color: var(--text);
-           font: 600 14px "Geist", sans-serif; cursor: pointer; }
-  .apply:hover { border-color: var(--gold); color: var(--gold2); }
-  .codemsg { font-size: 12.5px; margin-top: 7px; min-height: 18px; }
-  .codemsg.ok { color: var(--green); } .codemsg.no { color: var(--red); }
-  .info { margin-bottom: 18px; padding: 11px 14px; border-radius: 11px; border: 1px solid var(--line2); background: rgba(255,255,255,.03); color: var(--dim); font-size: 13.5px; }
-  .paybtn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; margin-top: 22px; height: 54px; padding: 0 34px; border-radius: 99px;
-            background: var(--gold); color: var(--ink); font: 700 16px "Geist", sans-serif; text-decoration: none;
-            box-shadow: 0 10px 30px rgba(232,182,62,.22), inset 0 1px 0 rgba(255,255,255,.45); }
-  .paybtn svg { width: 17px; height: 17px; }
-  .methods { margin-top: 14px; font-size: 12.5px; color: var(--mute); }
-  .sum .kv div.tot span:last-child { font-size: 18px; color: var(--gold2); }
-  .sum .kv div.disc span:last-child { color: var(--green); }
+  .check.bad { color: var(--bad); }
+  .info { margin-bottom: 20px; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--line2); background: rgba(255,255,255,.03); color: var(--dim); font-size: 14px; }
+  .formerr { display: none; margin-top: 14px; padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(255,122,133,.35); background: rgba(255,122,133,.08); color: #ffc0c6; font-size: 14px; }
+  .submit { width: 100%; margin-top: 26px; height: 58px; font-size: 17px; }
+  .submit .amt { font-family: "Geist Mono", monospace; font-weight: 600; }
+  .trust { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 20px; margin-top: 16px; font-size: 13px; color: var(--mute); }
+  .trust span { display: inline-flex; align-items: center; gap: 6px; } .trust i { font-size: 15px; color: var(--dim); }
 
   /* summary */
-  .sum h3 { font-size: 13px; font-weight: 600; color: var(--dim); letter-spacing: .3px; }
-  .sum .big { display: flex; align-items: baseline; gap: 10px; margin-top: 10px; }
-  .sum .big b { font-size: 26px; font-weight: 700; letter-spacing: -.5px; }
-  .sum .big span { color: var(--dim); font-size: 14px; }
-  .sum .kv { margin-top: 16px; border-top: 1px solid var(--line); }
-  .sum .kv div { display: flex; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 13.5px; }
-  .sum .kv div span:first-child { color: var(--dim); } .sum .kv div span:last-child { font-weight: 600; }
-  .steps { margin-top: 20px; display: grid; gap: 14px; }
-  .step { display: grid; grid-template-columns: 28px 1fr; gap: 10px; font-size: 13.5px; color: var(--dim); }
-  .step b { color: var(--text); font-weight: 600; display: block; }
-  .step i { font-style: normal; width: 28px; height: 28px; border-radius: 9px; border: 1px solid var(--line2); display: grid; place-items: center; font: 600 12px "Geist Mono", monospace; color: var(--gold); }
-  .note { margin-top: 18px; padding: 12px 14px; border-radius: 12px; background: rgba(255,255,255,.025); border: 1px solid var(--line); font-size: 12.5px; color: var(--dim); }
+  aside.card { padding: 26px; position: sticky; top: 20px; }
+  .sum h3 { font-size: 14px; font-weight: 600; color: var(--dim); }
+  .sum .big { display: flex; align-items: baseline; gap: 10px; margin-top: 8px; }
+  .sum .big b { font-size: 30px; font-weight: 800; letter-spacing: -.6px; }
+  .sum .big span { color: var(--dim); font-size: 15px; }
+  .kv { margin-top: 18px; display: grid; gap: 12px; padding: 16px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .kv div { display: flex; justify-content: space-between; font-size: 14px; }
+  .kv span:first-child { color: var(--dim); }
+  .kv span:last-child { font-weight: 600; }
+  #sList, #sPrice, #sDisc { font-family: "Geist Mono", monospace; }
+  .kv .neg span:last-child { color: var(--gold2); }
+  .kv s { color: var(--mute); font-weight: 500; }
+  .total { display: flex; justify-content: space-between; align-items: baseline; margin-top: 16px; }
+  .total span { color: var(--dim); font-size: 14px; }
+  .total b { font-family: "Geist Mono", monospace; font-size: 30px; letter-spacing: -1px; color: var(--gold2); }
+  .total b.loading { opacity: .45; }
+  .saved { margin-top: 6px; text-align: right; font-size: 13px; color: var(--gold2); min-height: 19px; }
+  .steps { margin-top: 22px; display: grid; gap: 16px; }
+  .step { display: grid; grid-template-columns: 34px 1fr; gap: 12px; font-size: 13.5px; color: var(--dim); }
+  .step b { color: var(--text); font-weight: 600; display: block; font-size: 14px; }
+  .step i { width: 34px; height: 34px; border-radius: 10px; border: 1px solid var(--line2); display: grid; place-items: center; font-size: 17px; color: var(--gold); }
 
-  /* success */
-  .done { display: none; text-align: center; padding: 44px 28px 40px; }
-  .done .ok { width: 58px; height: 58px; border-radius: 50%; margin: 0 auto; display: grid; place-items: center; background: rgba(46,214,146,.12); border: 1px solid rgba(46,214,146,.35); }
-  .done .ok svg { width: 26px; height: 26px; color: var(--green); }
-  .done h2 { font-size: 26px; letter-spacing: -.5px; margin-top: 18px; }
-  .done p { color: var(--dim); margin: 10px auto 0; max-width: 430px; font-size: 15px; }
-  .done .ref { display: inline-block; margin-top: 18px; padding: 8px 14px; border-radius: 10px; border: 1px solid var(--line2); font: 500 13px "Geist Mono", monospace; color: var(--dim); }
-  footer { text-align: center; color: var(--mute); font-size: 12px; margin-top: 40px; }
+  /* result panels */
+  .done { display: none; text-align: center; padding: 48px 30px 44px; }
+  .done .badge { width: 64px; height: 64px; border-radius: 50%; margin: 0 auto; display: grid; place-items: center; font-size: 30px;
+                 background: rgba(232,182,62,.12); border: 1px solid rgba(232,182,62,.4); color: var(--gold); animation: pop .6s var(--ease) both; }
+  .done .badge.ok { background: rgba(60,207,142,.12); border-color: rgba(60,207,142,.4); color: var(--ok); }
+  @keyframes pop { from { transform: scale(.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .done h2 { margin: 20px 0 0; }
+  .done p { color: var(--dim); margin: 10px auto 0; max-width: 440px; font-size: 15.5px; }
+  .done .btn { margin-top: 24px; }
+  .done .methods { margin-top: 14px; font-size: 13px; color: var(--mute); }
+  .done .ref { display: inline-block; margin-top: 18px; padding: 8px 14px; border-radius: 99px; border: 1px solid var(--line2); font: 500 13px "Geist Mono", monospace; color: var(--dim); }
+  footer { position: relative; z-index: 2; text-align: center; color: var(--mute); font-size: 12.5px; padding: 0 24px 40px; }
+
+  /* entrance (state: page ready) */
+  .rise { opacity: 0; transform: translateY(18px); }
+  .ready .rise { opacity: 1; transform: none; transition: opacity .8s var(--ease), transform .8s var(--ease); transition-delay: calc(var(--d, 0) * 90ms); }
 
   [hidden] { display: none !important; }
-  @media (max-width: 880px) { .grid { grid-template-columns: 1fr; } aside.card { position: static; } .hero { padding: 26px 0 26px; } }
-  @media (max-width: 520px) { form.card { padding: 20px 16px; } .plans, .row2 { grid-template-columns: 1fr; } .secure span { display: none; } .lead { font-size: 15.5px; } }
-  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+  @media (max-width: 960px) {
+    .hero { grid-template-columns: 1fr; min-height: 0; padding: 28px 0 40px; gap: 10px; }
+    .shots { height: 500px; } .shots .front { width: 220px; left: 10%; } .shots .back { width: 210px; right: 8%; }
+    .order { grid-template-columns: 1fr; } aside.card { position: static; }
+  }
+  @media (max-width: 560px) {
+    .wrap { padding: 0 16px; } form.card { padding: 22px 16px; } aside.card { padding: 22px 16px; }
+    .plans, .row2 { grid-template-columns: 1fr; } .secure span { display: none; } .lead { font-size: 16px; }
+    .hero-cta .btn { flex: 1 1 100%; } .shots { height: 400px; margin-top: 18px; } .shots .front { width: 175px; left: 6%; } .shots .back { width: 165px; right: 4%; top: 30px; }
+    .seg button { font-size: 13px; gap: 5px; } .seg button i { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+    .rise { opacity: 1; transform: none; }
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="top">
     <a class="logo" href="./"><b>DMGT</b><span>PRO</span></a>
-    <div class="secure">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
-      <span>Secure order · licence delivered by email</span>
-    </div>
+    <div class="secure"><i class="ph-fill ph-lock-simple"></i><span>Secure checkout by Stripe</span></div>
   </header>
 
   <section class="hero">
-    <div class="eyebrow"><i></i>Trade manager for MetaTrader 5</div>
-    <h1 id="heroTitle">Get your <em>DMGT Pro</em> licence</h1>
-    <p class="lead" id="heroLead">Break-even, smart trailing, profit claiming and risk guards in one click. Fill in the form and your licence key arrives by email once payment is confirmed.</p>
+    <div>
+      <div class="sale rise" id="saleChip" hidden><span class="tag" id="saleTag">Sale</span><span id="saleText"></span></div>
+      <h1 class="rise" style="--d:1">Manage every MT5 trade from <b>one panel.</b></h1>
+      <p class="lead rise" style="--d:2">Break-even, trailing, profit claiming and risk guards in one click. Your licence key arrives by email within a minute.</p>
+      <div class="hero-cta rise" style="--d:3">
+        <a class="btn btn-gold" href="#order" id="heroBuy">Choose a plan <i class="ph-bold ph-arrow-right go"></i></a>
+        <a class="btn btn-ghost" href="#order" id="heroTrial" hidden><i class="ph ph-gift"></i><span id="heroTrialTxt">Try BASE free</span></a>
+      </div>
+    </div>
+    <div class="shots rise" style="--d:2" aria-hidden="true">
+      <img class="back" src="img/panel-midnight.png" width="355" height="727" alt="" loading="eager">
+      <img class="front" src="img/panel-graphite.png" width="307" height="636" alt="DMGT Pro panel in MetaTrader 5" fetchpriority="high">
+    </div>
   </section>
 
-  <div class="grid">
+  <section class="order" id="order">
     <div>
       <form class="card" id="f" novalidate>
-        <div class="info" id="cancelInfo" hidden>Payment cancelled - nothing was charged. You can try again below.</div>
-        <div class="seg" role="group" aria-label="Request type">
-          <button type="button" data-type="new" aria-pressed="true">New licence</button>
-          <button type="button" data-type="renew" aria-pressed="false">Renew my licence</button>
+        <div class="info" id="cancelInfo" hidden>Payment cancelled. Nothing was charged, you can try again below.</div>
+        <h2 id="formTitle">Choose your plan</h2>
+        <div class="seg" role="group" aria-label="What do you need">
+          <button type="button" data-type="new" aria-pressed="true"><i class="ph ph-key"></i>New licence</button>
+          <button type="button" data-type="renew" aria-pressed="false"><i class="ph ph-arrows-clockwise"></i>Renew</button>
+          <button type="button" data-type="trial" aria-pressed="false" id="segTrial" hidden><i class="ph ph-gift"></i>Free trial</button>
         </div>
 
         <div class="sec field" id="keyBox" hidden>
@@ -192,56 +267,67 @@
           <div class="err">Enter your key in the form DMGT-XXXX-XXXX-XXXX-XXXX.</div>
         </div>
 
-        <div class="sec">
-          <div class="label">Edition</div>
-          <div class="plans" role="radiogroup" aria-label="Edition">
-            <label class="plan" data-plan="BASE">
-              <input type="radio" name="edition" value="BASE">
-              <div class="ph"><span class="nm">BASE</span><span class="dot"></span></div>
-              <div class="ds">The full trade panel</div>
-              <div class="price" data-price="BASE"></div>
-              <ul>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Break-even, 5 trailing modes, runner</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Claim preview, Clear &amp; keep</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>News, margin &amp; time guards</li>
-              </ul>
-            </label>
-            <label class="plan" data-plan="PRO">
-              <span class="badge">Most popular</span>
-              <input type="radio" name="edition" value="PRO">
-              <div class="ph"><span class="nm">PRO</span><span class="dot"></span></div>
-              <div class="ds">Panel + Telegram control</div>
-              <div class="price" data-price="PRO"></div>
-              <ul>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Everything in BASE</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Control trades from your phone</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Alerts, /chart, daily summary</li>
-              </ul>
-            </label>
+        <div class="sec" id="trialBox" hidden>
+          <div class="trialbox">
+            <i class="ph-fill ph-gift"></i>
+            <div><b id="trialTitle">BASE free for 14 days</b>
+              <p>No card needed. The full BASE panel on one computer. One trial per person and per computer. Upgrade any time from the email we send you.</p></div>
           </div>
         </div>
 
-        <div class="sec">
-          <div class="label">Duration</div>
-          <div class="seg" role="group" aria-label="Duration" id="dur">
-            <button type="button" data-dur="1 Month" aria-pressed="true">1 Month</button>
-            <button type="button" data-dur="Lifetime" aria-pressed="false">Lifetime</button>
+        <div id="planBox">
+          <div class="sec">
+            <div class="label">Edition</div>
+            <div class="plans" role="radiogroup" aria-label="Edition">
+              <label class="plan" data-plan="BASE">
+                <span class="save" data-save="BASE" hidden></span>
+                <input type="radio" name="edition" value="BASE">
+                <div class="ph-row"><span class="nm">BASE</span><span class="radio"></span></div>
+                <div class="ds">The full trade panel</div>
+                <div class="price" data-price="BASE"></div>
+                <ul>
+                  <li><i class="ph-bold ph-check"></i>Break-even, 5 trailing modes, runner</li>
+                  <li><i class="ph-bold ph-check"></i>Claim preview, Clear &amp; keep</li>
+                  <li><i class="ph-bold ph-check"></i>News, margin and time guards</li>
+                </ul>
+              </label>
+              <label class="plan" data-plan="PRO">
+                <span class="save" data-save="PRO" hidden></span>
+                <input type="radio" name="edition" value="PRO">
+                <div class="ph-row"><span class="nm">PRO</span><span class="radio"></span></div>
+                <div class="ds">Panel plus Telegram control</div>
+                <div class="price" data-price="PRO"></div>
+                <ul>
+                  <li><i class="ph-bold ph-check"></i>Everything in BASE</li>
+                  <li><i class="ph-bold ph-check"></i>Control trades from your phone</li>
+                  <li><i class="ph-bold ph-check"></i>Alerts, /chart, daily summary</li>
+                </ul>
+              </label>
+            </div>
           </div>
-        </div>
 
-        <div class="sec field" id="codeBox">
-          <label class="label" for="code">Discount code <small>optional</small></label>
-          <div class="coderow">
-            <input type="text" id="code" class="mono" placeholder="ENTER CODE" maxlength="30" autocomplete="off">
-            <button type="button" class="apply" id="applyCode">Apply</button>
+          <div class="sec">
+            <div class="label">Duration</div>
+            <div class="seg" role="group" aria-label="Duration" id="dur">
+              <button type="button" data-dur="1 Month" aria-pressed="true">1 Month</button>
+              <button type="button" data-dur="Lifetime" aria-pressed="false">Lifetime</button>
+            </div>
           </div>
-          <div class="codemsg" id="codeMsg"></div>
+
+          <div class="sec field">
+            <label class="label" for="code">Discount code <small>optional</small></label>
+            <div class="coderow">
+              <input type="text" id="code" class="mono" placeholder="ENTER CODE" maxlength="30" autocomplete="off">
+              <button type="button" class="apply" id="applyCode">Apply</button>
+            </div>
+            <div class="codemsg" id="codeMsg" aria-live="polite"></div>
+          </div>
         </div>
 
         <div class="sec row2">
           <div class="field" id="nameBox">
             <label class="label" for="name">Full name</label>
-            <input type="text" id="name" placeholder="John Tan" autocomplete="name" maxlength="120">
+            <input type="text" id="name" placeholder="Your name" autocomplete="name" maxlength="120">
             <div class="err">Please enter your name.</div>
           </div>
           <div class="field" id="emailBox">
@@ -259,7 +345,7 @@
 
         <div class="sec field">
           <label class="label" for="notes">Note <small>optional</small></label>
-          <textarea id="notes" placeholder="e.g. referral, question, MT5 broker" maxlength="500"></textarea>
+          <textarea id="notes" placeholder="Referral, question or your MT5 broker" maxlength="500"></textarea>
         </div>
 
         <div class="hp" aria-hidden="true"><label>Website <input type="text" id="website" tabindex="-1" autocomplete="off"></label></div>
@@ -269,27 +355,27 @@
             <span>I understand DMGT Pro manages my existing MetaTrader 5 positions and does not open trades, and that trading involves risk.</span></label>
         </div>
 
-        <button class="cta" type="submit" id="go"><span class="spin"></span><span id="goTxt">Continue to payment</span></button>
+        <button class="btn btn-gold submit" type="submit" id="go"><span class="spin"></span><span id="goTxt">Continue to payment</span><i class="ph-bold ph-arrow-right go"></i></button>
         <div class="formerr" id="formErr" role="alert"></div>
         <div class="trust">
-          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Secure payment by Stripe</span>
-          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg>Instant key by email</span>
-          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg>Free updates</span>
-          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>MT5 desktop &amp; VPS</span>
+          <span><i class="ph ph-lock-simple"></i><span id="trustPay">Secure payment by Stripe</span></span>
+          <span><i class="ph ph-envelope-simple"></i>Key by email</span>
+          <span><i class="ph ph-arrows-clockwise"></i>Free updates</span>
+          <span><i class="ph ph-desktop"></i>MT5 desktop and VPS</span>
         </div>
       </form>
 
       <div class="card done" id="pay" aria-live="polite">
-        <div class="ok" style="background:rgba(232,182,62,.12);border-color:rgba(232,182,62,.4)"><svg style="color:var(--gold)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/></svg></div>
+        <div class="badge"><i class="ph-fill ph-credit-card"></i></div>
         <h2>Almost done</h2>
         <p id="payText">Complete your payment on Stripe's secure page.</p>
-        <a class="paybtn" id="payLink" href="#"><span id="payLabel">Pay securely</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        <div class="methods">Card · Apple Pay · Google Pay — processed by Stripe. We never see your card details.</div>
+        <a class="btn btn-gold" id="payLink" href="#"><span id="payLabel">Pay securely</span><i class="ph-bold ph-arrow-right go"></i></a>
+        <div class="methods">Card, Apple Pay or Google Pay, processed by Stripe. We never see your card details.</div>
         <div class="ref" id="payRef"></div>
       </div>
 
       <div class="card done" id="done" aria-live="polite">
-        <div class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></div>
+        <div class="badge ok"><i class="ph-bold ph-check"></i></div>
         <h2 id="doneTitle">Order received</h2>
         <p id="doneText"></p>
         <div class="ref" id="doneRef"></div>
@@ -301,34 +387,38 @@
       <div class="big"><b id="sEdition">PRO</b><span id="sDuration">1 Month</span></div>
       <div class="kv">
         <div><span>Request</span><span id="sType">New licence</span></div>
-        <div><span>Price</span><span id="sPrice">-</span></div>
-        <div class="disc" id="sDiscRow" hidden><span id="sDiscLbl">Discount</span><span id="sDisc">-</span></div>
-        <div class="tot"><span>Total</span><span id="sTotal">-</span></div>
-        <div><span>Computers</span><span>1 (resettable)</span></div>
+        <div id="sListRow" hidden><span>Normal price</span><span><s id="sList">-</s></span></div>
+        <div id="sPriceRow"><span id="sPriceLbl">Price</span><span id="sPrice">-</span></div>
+        <div class="neg" id="sDiscRow" hidden><span id="sDiscLbl">Discount</span><span id="sDisc">-</span></div>
+        <div><span>Computers</span><span>1</span></div>
       </div>
+      <div class="total"><span>Total today</span><b id="sTotal">-</b></div>
+      <div class="saved" id="sSaved"></div>
       <div class="steps">
-        <div class="step"><i>1</i><div><b>Choose your plan</b>Add a discount code if you have one.</div></div>
-        <div class="step"><i>2</i><div><b>Pay securely</b>Card, Apple Pay or Google Pay on Stripe's checkout.</div></div>
-        <div class="step"><i>3</i><div><b id="step3t">Get your key</b><span id="step3d">Licence key, download link and setup guide arrive by email within a minute.</span></div></div>
+        <div class="step"><i class="ph ph-cursor-click"></i><div><b id="st1t">Pick a plan</b><span id="st1d">Add a discount code if you have one.</span></div></div>
+        <div class="step"><i class="ph ph-credit-card"></i><div><b id="st2t">Pay with Stripe</b><span id="st2d">Card, Apple Pay or Google Pay.</span></div></div>
+        <div class="step"><i class="ph ph-envelope-simple"></i><div><b id="st3t">Get your key</b><span id="st3d">Key, download link and setup guide by email within a minute.</span></div></div>
       </div>
-      <div class="note">Check your Spam or Promotions folder if the email does not arrive within a few minutes after payment.</div>
     </aside>
-  </div>
-
-  <footer>© DMGT Pro · MetaTrader 5 trade management panel · Trading involves risk.</footer>
+  </section>
 </div>
+<footer>DMGT Pro, trade management panel for MetaTrader 5. Trading involves risk.</footer>
 
 <script>
   var API = "https://knzonoqeccgkrumpjfrc.supabase.co/functions/v1/dmgt-order";
-  var CFG = { prices: { BASE: { "1 Month": 1800, "Lifetime": 8800 }, PRO: { "1 Month": 2800, "Lifetime": 11800 } }, payments: true };
+  var CFG = { prices: { BASE: { "1 Month": 1800, "Lifetime": 8800 }, PRO: { "1 Month": 2800, "Lifetime": 11800 } },
+              sale_prices: null, sale_ends_at: null, sale_label: null, trial_days: 0, payments: true };
+  var $ = function (id) { return document.getElementById(id); };
+  var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   function call(action, data) {
     return fetch(API, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(Object.assign({ action: action }, data || {})) })
       .then(function (r) { return r.json().catch(function () { return { ok: false, error: "Server error (" + r.status + ")" }; }); });
   }
   var PREFILL = (function () {
     var q = new URLSearchParams(location.search), g = function (k) { return String(q.get(k) || ""); };
+    var t = g("type");
     return {
-      type: g("type") === "renew" ? "renew" : "new",
+      type: t === "renew" ? "renew" : t === "trial" ? "trial" : "new",
       key: g("key").toUpperCase().replace(/[^0-9A-Z-]/g, "").slice(0, 24),
       edition: g("edition").toUpperCase() === "BASE" ? "BASE" : "PRO",
       duration: g("duration").toLowerCase().indexOf("life") === 0 ? "Lifetime" : "1 Month",
@@ -337,73 +427,135 @@
       code: g("code").toUpperCase().replace(/[^A-Z0-9_-]/g, "").slice(0, 30),
     };
   })();
-  var state = { type: "new", edition: "PRO", duration: "1 Month" };
-  var $ = function (id) { return document.getElementById(id); };
+  var state = { type: "new", edition: "PRO", duration: "1 Month", code: "" };
+  var last = null, quoteSeq = 0;
 
-  function setType(t) {
-    state.type = t;
-    document.querySelectorAll(".seg [data-type]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.type === t)); });
-    $("keyBox").hidden = t !== "renew";
-    $("heroTitle").innerHTML = t === "renew" ? "Renew your <em>DMGT Pro</em> licence" : "Get your <em>DMGT Pro</em> licence";
-    $("heroLead").textContent = t === "renew"
-      ? "Keep the same key and settings. Choose your edition and duration, and we extend your licence as soon as payment is confirmed."
-      : "Break-even, smart trailing, profit claiming and risk guards in one click. Fill in the form and your licence key arrives by email once payment is confirmed.";
-    updateCta();
-    $("sType").textContent = t === "renew" ? "Renewal" : "New licence";
-    $("step3t").textContent = t === "renew" ? "Licence extended" : "Get your key";
-    $("step3d").textContent = t === "renew" ? "Extended right after payment - your panel picks it up automatically." : "Licence key, download link and setup guide arrive by email within a minute.";
-  }
-  var quoteSeq = 0, last = null;
   function usd(c) { return "USD " + (c / 100).toFixed(2); }
-  function updateCta() {
-    $("goTxt").textContent = (CFG.payments ? (state.type === "renew" ? "Renew" : "Continue to payment") : (state.type === "renew" ? "Request renewal" : "Send order"))
-      + (last ? " · " + usd(last.total) : "");
+  function usdShort(c) { return "USD " + (c % 100 ? (c / 100).toFixed(2) : String(c / 100)); }
+  function listOf(e, d) { return CFG.prices[e] && CFG.prices[e][d]; }
+  function saleOf(e, d) { var s = CFG.sale_prices && CFG.sale_prices[e] && CFG.sale_prices[e][d], l = listOf(e, d); return s && l && s < l ? s : null; }
+
+  // animated money (state transition on the CTA and total)
+  var shown = {};
+  function tween(el, key, to, fmt) {
+    var from = shown[key] == null ? to : shown[key]; shown[key] = to;
+    if (reduce || from === to) { el.textContent = fmt(to); return; }
+    var t0 = performance.now(), dur = 520;
+    (function f(t) { var p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 4);
+      el.textContent = fmt(Math.round(from + (to - from) * e)); if (p < 1) requestAnimationFrame(f); })(t0);
   }
+
+  function showPrices() {
+    ["BASE", "PRO"].forEach(function (e) {
+      var l = listOf(e, state.duration), s = saleOf(e, state.duration), el = document.querySelector('[data-price="' + e + '"]');
+      var per = state.duration === "Lifetime" ? "one-time" : "/ month";
+      el.innerHTML = (s ? "<s>" + usdShort(l) + "</s>" : "") + "<b>" + usdShort(s || l) + "</b><small>" + per + "</small>";
+      var tag = document.querySelector('[data-save="' + e + '"]');
+      tag.hidden = !s; if (s) tag.textContent = "Save " + Math.round((1 - s / l) * 100) + "%";
+    });
+  }
+
+  function saleChip() {
+    var any = false, best = 0;
+    ["BASE", "PRO"].forEach(function (e) { ["1 Month", "Lifetime"].forEach(function (d) {
+      var s = saleOf(e, d), l = listOf(e, d); if (s) { any = true; best = Math.max(best, Math.round((1 - s / l) * 100)); } }); });
+    $("saleChip").hidden = !any;
+    if (!any) return;
+    $("saleTag").textContent = CFG.sale_label || "Sale";
+    var end = CFG.sale_ends_at ? Date.parse(CFG.sale_ends_at) : NaN;
+    if (isNaN(end)) { $("saleText").textContent = "Save up to " + best + "% on every plan"; return; }
+    $("saleText").innerHTML = 'Ends in <span class="clock" id="clock"></span>';
+    (function tick() {
+      var ms = end - Date.now();
+      if (ms <= 0) { loadConfig(); return; }
+      var s = Math.floor(ms / 1000), d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60), x = s % 60;
+      var p = function (n) { return (n < 10 ? "0" : "") + n; };
+      $("clock").textContent = (d ? d + "d " : "") + p(h) + ":" + p(m) + ":" + p(x);
+      setTimeout(tick, 1000);
+    })();
+  }
+
+  function updateCta() {
+    var lbl;
+    if (state.type === "trial") lbl = "Start free trial";
+    else if (!CFG.payments) lbl = state.type === "renew" ? "Request renewal" : "Send order";
+    else lbl = state.type === "renew" ? "Renew for" : "Pay";
+    $("goTxt").innerHTML = lbl + (state.type !== "trial" && last ? ' <span class="amt" id="ctaAmt"></span>' : "");
+    if (state.type !== "trial" && last) { shown.cta = null; tween($("ctaAmt"), "cta", last.total, usd); }
+  }
+
+  function renderSummary() {
+    var trial = state.type === "trial";
+    $("sEdition").textContent = trial ? "BASE" : state.edition;
+    $("sDuration").textContent = trial ? (CFG.trial_days || 14) + "-day trial" : state.duration;
+    $("sType").textContent = trial ? "Free trial" : state.type === "renew" ? "Renewal" : "New licence";
+    if (trial) {
+      $("sListRow").hidden = true; $("sDiscRow").hidden = true; $("sPriceLbl").textContent = "Price"; $("sPrice").textContent = "Free";
+      tween($("sTotal"), "total", 0, usd); $("sSaved").textContent = "No card needed";
+      return;
+    }
+    if (!last) return;
+    var sale = last.list_price > last.price;
+    $("sListRow").hidden = !sale; $("sList").textContent = usd(last.list_price);
+    $("sPriceLbl").textContent = sale ? (CFG.sale_label || "Sale") + " price" : "Price";
+    $("sPrice").textContent = usd(last.price);
+    $("sDiscRow").hidden = !(last.discount > 0);
+    $("sDiscLbl").textContent = "Code " + (last.code_ok ? last.code : "");
+    $("sDisc").textContent = "- " + usd(last.discount);
+    tween($("sTotal"), "total", last.total, usd);
+    var off = last.list_price - last.total;
+    $("sSaved").textContent = off > 0 ? "You save " + usd(off) : "";
+  }
+
   function refreshQuote() {
+    if (state.type === "trial") { renderSummary(); updateCta(); return; }
     var my = ++quoteSeq;
     $("sTotal").classList.add("loading");
     call("quote", { edition: state.edition, duration: state.duration, code: state.code }).then(function (q) {
       if (my !== quoteSeq) return;
       $("sTotal").classList.remove("loading");
-      if (!q || !q.ok) { if (state.code) { $("codeMsg").textContent = "Could not check the code - please try again."; $("codeMsg").className = "codemsg no"; } return; }
+      if (!q || !q.ok) { if (state.code) { $("codeMsg").textContent = "Could not check the code, please try again."; $("codeMsg").className = "codemsg no"; } return; }
       last = q;
-      $("sPrice").textContent = usd(q.price);
-      $("sDiscRow").hidden = !(q.discount > 0);
-      $("sDiscLbl").textContent = "Discount" + (q.code_ok ? " (" + q.code + ")" : "");
-      $("sDisc").textContent = "- " + usd(q.discount);
-      $("sTotal").textContent = usd(q.total);
       var m = $("codeMsg");
       if (state.code) { m.textContent = q.code_ok ? q.code_msg + " applied" : q.code_msg; m.className = "codemsg " + (q.code_ok ? "ok" : "no"); if (!q.code_ok) state.code = ""; }
       else { m.textContent = ""; m.className = "codemsg"; }
-      updateCta();
+      renderSummary(); updateCta();
     }).catch(function () { if (my === quoteSeq) $("sTotal").classList.remove("loading"); });
+  }
+
+  function setType(t) {
+    if (t === "trial" && !(CFG.trial_days > 0)) t = "new";
+    state.type = t;
+    document.querySelectorAll(".seg [data-type]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.type === t)); });
+    $("keyBox").hidden = t !== "renew";
+    $("trialBox").hidden = t !== "trial";
+    $("planBox").hidden = t === "trial";
+    $("formTitle").textContent = t === "trial" ? "Start your free trial" : t === "renew" ? "Renew your licence" : "Choose your plan";
+    $("st1t").textContent = t === "trial" ? "Enter your email" : "Pick a plan";
+    $("st1d").textContent = t === "trial" ? "One trial per person and per computer." : "Add a discount code if you have one.";
+    $("st2t").textContent = t === "trial" ? "No payment" : "Pay with Stripe";
+    $("st2d").textContent = t === "trial" ? "Nothing to pay and no card needed." : CFG.payments ? "Card, Apple Pay or Google Pay." : "We send you the payment details.";
+    $("st3t").textContent = t === "renew" ? "Licence extended" : t === "trial" ? "Trial key by email" : "Get your key";
+    $("st3d").textContent = t === "renew" ? "Your panel picks up the new date automatically." : "Key, download link and setup guide by email within a minute.";
+    $("trustPay").textContent = t === "trial" ? "No card needed" : CFG.payments ? "Secure payment by Stripe" : "Safe ordering";
+    refreshQuote(); updateCta();
   }
   function setEdition(e) {
     state.edition = e;
     document.querySelectorAll(".plan").forEach(function (p) { var on = p.dataset.plan === e; p.classList.toggle("on", on); p.querySelector("input").checked = on; });
-    $("sEdition").textContent = e; showPrices(); refreshQuote();
+    refreshQuote();
   }
   function setDuration(d) {
     state.duration = d;
     document.querySelectorAll("#dur [data-dur]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.dur === d)); });
-    $("sDuration").textContent = d; showPrices(); refreshQuote();
+    showPrices(); refreshQuote();
   }
-  function showPrices() {
-    document.querySelectorAll("[data-price]").forEach(function (el) {
-      var c = CFG.prices[el.dataset.price] && CFG.prices[el.dataset.price][state.duration];
-      el.textContent = c ? "USD " + Math.round(c / 100) + (state.duration === "Lifetime" ? " one-time" : " / month") : "";
-      el.hidden = !c;
-    });
-  }
-  function applyMode() {   // Stripe not connected yet -> manual wording
-    if (CFG.payments) return;
-    document.querySelector(".trust span").lastChild.textContent = "Safe ordering";
-    document.querySelectorAll(".steps .step")[1].querySelector("div").innerHTML = "<b>Pay</b>We send you the payment details right after your order.";
-    document.querySelector("#pay .methods").textContent = "";
-  }
+
   document.querySelectorAll(".seg [data-type]").forEach(function (b) { b.addEventListener("click", function () { setType(b.dataset.type); }); });
   document.querySelectorAll("#dur [data-dur]").forEach(function (b) { b.addEventListener("click", function () { setDuration(b.dataset.dur); }); });
   document.querySelectorAll(".plan").forEach(function (p) { p.addEventListener("click", function () { setEdition(p.dataset.plan); }); });
+  $("heroBuy").addEventListener("click", function () { if (state.type === "trial") setType("new"); });
+  $("heroTrial").addEventListener("click", function () { setType("trial"); });
   $("applyCode").addEventListener("click", function () {
     state.code = $("code").value.trim().toUpperCase().replace(/[^A-Z0-9_-]/g, "");
     $("code").value = state.code;
@@ -419,6 +571,10 @@
   });
 
   function bad(id, on) { $(id).classList.toggle("bad", on); return on; }
+  function fail(msg) { $("formErr").textContent = msg; $("formErr").style.display = "block"; }
+  function showPanel(id) { $("f").style.display = "none"; $("pay").style.display = id === "pay" ? "block" : "none"; $("done").style.display = id === "done" ? "block" : "none";
+    $("order").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" }); }
+
   $("f").addEventListener("submit", function (ev) {
     ev.preventDefault();
     $("formErr").style.display = "none";
@@ -431,36 +587,48 @@
     err = bad("agreeBox", !$("agree").checked) || err;
     if (err) { var first = document.querySelector(".bad input, .bad"); if (first && first.focus) first.focus(); return; }
     var btn = $("go"); btn.disabled = true; btn.classList.add("busy");
-    call("checkout", d).then(function (r) {
-        btn.disabled = false; btn.classList.remove("busy");
-        if (!r || !r.ok) { $("formErr").textContent = (r && r.error) || "Something went wrong. Please try again."; $("formErr").style.display = "block"; return; }
-        if (r.url) {
-          $("f").style.display = "none"; $("pay").style.display = "block";
-          $("payText").textContent = "Your order is ready. Complete your payment of " + usd(r.total) + " on Stripe's secure page - your " + (d.type === "renew" ? "renewal is applied" : "licence key is emailed") + " right after.";
-          $("payLabel").textContent = "Pay " + usd(r.total) + " securely";
-          $("payLink").href = r.url; $("payRef").textContent = "Order " + r.ref;
-          window.scrollTo({ top: 0, behavior: "smooth" });
-          setTimeout(function () { location.href = r.url; }, 600);
-          return;
-        }
-        if (r.free) { showPaid(r.ref, d.type, d.email); return; }
-        $("f").style.display = "none"; $("done").style.display = "block";
-        $("doneTitle").textContent = d.type === "renew" ? "Renewal requested" : "Order received";
-        $("doneText").textContent = d.type === "renew"
-          ? "Thank you, " + d.name.split(" ")[0] + ". We will send you the payment details, then extend " + d.key + ". You will get a confirmation email at " + d.email + "."
-          : "Thank you, " + d.name.split(" ")[0] + ". We will send you the payment details. Your licence key and download link will be sent to " + d.email + " once payment is confirmed.";
+    var done = function () { btn.disabled = false; btn.classList.remove("busy"); };
+
+    if (d.type === "trial") {
+      call("trial", d).then(function (r) {
+        done();
+        if (!r || !r.ok) { fail((r && r.error) || "Something went wrong. Please try again."); return; }
+        showPanel("done");
+        $("doneTitle").textContent = "Your free trial is on its way";
+        $("doneText").textContent = "We emailed your BASE trial key to " + d.email + ". It works for " + (r.days || CFG.trial_days) +
+          " days on one computer. Check Spam or Promotions if you do not see it within a few minutes.";
         $("doneRef").textContent = "Reference " + r.ref;
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }).catch(function () { btn.disabled = false; btn.classList.remove("busy"); $("formErr").textContent = "Connection problem. Please check your internet and try again."; $("formErr").style.display = "block"; });
+      }).catch(function () { done(); fail("Connection problem. Please check your internet and try again."); });
+      return;
+    }
+
+    call("checkout", d).then(function (r) {
+      done();
+      if (!r || !r.ok) { fail((r && r.error) || "Something went wrong. Please try again."); return; }
+      if (r.url) {
+        showPanel("pay");
+        $("payText").textContent = "Your order is ready. Pay " + usd(r.total) + " on Stripe's secure page and your " + (d.type === "renew" ? "renewal is applied" : "licence key is emailed") + " right after.";
+        $("payLabel").textContent = "Pay " + usd(r.total);
+        $("payLink").href = r.url; $("payRef").textContent = "Order " + r.ref;
+        setTimeout(function () { location.href = r.url; }, 700);
+        return;
+      }
+      if (r.free) { showPaid(r.ref, d.type, d.email); return; }
+      showPanel("done");
+      $("doneTitle").textContent = d.type === "renew" ? "Renewal requested" : "Order received";
+      $("doneText").textContent = d.type === "renew"
+        ? "Thank you, " + d.name.split(" ")[0] + ". We will send you the payment details, then extend " + d.key + ". A confirmation goes to " + d.email + "."
+        : "Thank you, " + d.name.split(" ")[0] + ". We will send you the payment details. Your licence key and download link go to " + d.email + " once payment is confirmed.";
+      $("doneRef").textContent = "Reference " + r.ref;
+    }).catch(function () { done(); fail("Connection problem. Please check your internet and try again."); });
   });
 
   function showPaid(ref, type, email) {
-    $("f").style.display = "none"; $("pay").style.display = "none"; $("done").style.display = "block";
+    showPanel("done");
     $("doneTitle").textContent = "Payment received";
-    $("doneText").textContent = (type === "renew" ? "Thank you! Your licence is being renewed now - you will get a confirmation email" : "Thank you! Your licence key, download link and setup guide are being emailed")
-      + (email ? " to " + email : "") + " within a minute. Please check Spam or Promotions if you do not see it.";
+    $("doneText").textContent = (type === "renew" ? "Thank you. Your licence is being renewed and a confirmation email is on its way" : "Thank you. Your licence key, download link and setup guide are being emailed")
+      + (email ? " to " + email : "") + ". Check Spam or Promotions if you do not see it.";
     $("doneRef").textContent = "Order " + ref;
-    window.scrollTo(0, 0);
     var tries = 0;
     (function poll() {
       call("order", { ref: ref }).then(function (o) {
@@ -468,32 +636,42 @@
           $("doneTitle").textContent = o.request === "Renew" ? "Licence renewed" : "You're all set";
           $("doneText").textContent = o.request === "Renew"
             ? "Your licence has been extended and a confirmation email is on its way. Your panel picks it up automatically."
-            : "Your licence key, download link and setup guide have been emailed. Please check Spam or Promotions if you do not see it.";
+            : "Your licence key, download link and setup guide have been emailed. Check Spam or Promotions if you do not see it.";
           return;
         }
-        if (o && o.ok && (o.status === "error")) {
-          $("doneText").textContent = "Payment received - we are finishing your order by hand and will email you shortly.";
-          return;
-        }
+        if (o && o.ok && o.status === "error") { $("doneText").textContent = "Payment received. We are finishing your order by hand and will email you shortly."; return; }
         if (++tries < 20) setTimeout(poll, 3000);
       }).catch(function () {});
     })();
   }
-  function track() { if (history.replaceState && (PREFILL.paid || PREFILL.cancel)) history.replaceState(null, "", location.pathname + (PREFILL.type === "renew" && PREFILL.key ? "?type=renew&key=" + PREFILL.key : "")); }
-  setType(PREFILL && PREFILL.type === "renew" ? "renew" : "new");
-  setEdition(PREFILL && PREFILL.edition === "BASE" ? "BASE" : "PRO");
-  setDuration(PREFILL && PREFILL.duration === "Lifetime" ? "Lifetime" : "1 Month");
-  if (PREFILL && PREFILL.key) { $("key").value = PREFILL.key; $("key").dispatchEvent(new Event("input")); }
+
+  function loadConfig() {
+    return call("config").then(function (c) {
+      if (!c || !c.ok) return;
+      if (c.prices && c.prices.BASE && c.prices.PRO) CFG.prices = c.prices;
+      CFG.sale_prices = c.sale_prices || null; CFG.sale_ends_at = c.sale_ends_at || null; CFG.sale_label = c.sale_label || null;
+      CFG.trial_days = c.trial_days || 0; CFG.payments = !!c.payments;
+      var trialOn = CFG.trial_days > 0;
+      $("segTrial").hidden = !trialOn; $("heroTrial").hidden = !trialOn;
+      $("heroTrialTxt").textContent = "Try BASE free for " + CFG.trial_days + " days";
+      $("trialTitle").textContent = "BASE free for " + CFG.trial_days + " days";
+      if (PREFILL.type === "trial" && trialOn && state.type !== "trial" && !PREFILL.paid) setType("trial");
+      showPrices(); saleChip(); setType(state.type);
+    }).catch(function () {});
+  }
+
+  // start
+  setType(PREFILL.type === "trial" ? "new" : PREFILL.type);
+  setEdition(PREFILL.edition);
+  setDuration(PREFILL.duration);
+  if (PREFILL.key) { $("key").value = PREFILL.key; $("key").dispatchEvent(new Event("input")); }
   if (PREFILL.code) { $("code").value = PREFILL.code; state.code = PREFILL.code; refreshQuote(); }
   if (PREFILL.paid) showPaid(PREFILL.paid, PREFILL.type, "");
   if (PREFILL.cancel) $("cancelInfo").hidden = false;
-  track();
-  call("config").then(function (c) {
-    if (!c || !c.ok) return;
-    if (c.prices && c.prices.BASE && c.prices.PRO) CFG.prices = c.prices;
-    CFG.payments = !!c.payments;
-    showPrices(); applyMode(); updateCta();
-  }).catch(function () {});
+  if (history.replaceState && (PREFILL.paid || PREFILL.cancel))
+    history.replaceState(null, "", location.pathname + (PREFILL.type === "renew" && PREFILL.key ? "?type=renew&key=" + PREFILL.key : ""));
+  loadConfig();
+  requestAnimationFrame(function () { document.body.classList.add("ready"); });
 </script>
 </body>
 </html>
