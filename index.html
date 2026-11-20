@@ -33,6 +33,13 @@
   body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 1; opacity: .05;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
   a { color: var(--gold2); }
+  /* background: a faint live market tape (canvas) + warm light from the top. Fixed, behind everything, never clickable. */
+  #tape { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; opacity: .9;
+          -webkit-mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.75) 45%, rgba(0,0,0,.18) 85%);
+                  mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,.75) 45%, rgba(0,0,0,.18) 85%); }
+  body::before { content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background: radial-gradient(1100px 520px at 70% -180px, rgba(232,182,62,.13), transparent 70%),
+                radial-gradient(700px 400px at 0% 110%, rgba(232,182,62,.05), transparent 70%); }
   .wrap { position: relative; z-index: 2; max-width: 1180px; margin: 0 auto; padding: 0 24px; }
   i.ph, i.ph-bold, i.ph-fill { line-height: 1; }
 
@@ -231,6 +238,7 @@
 </style>
 </head>
 <body>
+<canvas id="tape" aria-hidden="true"></canvas>
 <div class="wrap">
   <header class="top">
     <a class="logo" href="./"><b>DMGT</b><span>PRO</span></a>
@@ -682,6 +690,61 @@
     history.replaceState(null, "", location.pathname + (PREFILL.type === "renew" && PREFILL.key ? "?type=renew&key=" + PREFILL.key : ""));
   loadConfig();
   requestAnimationFrame(function () { document.body.classList.add("ready"); });
+
+  // background market tape: random-walk candles drifting left, gold = up, grey = down, plus a gold moving average
+  (function () {
+    var cv = $("tape"), cx = cv.getContext && cv.getContext("2d");
+    if (!cx) return;
+    var W = 0, H = 0, dpr = 1, gap = 16, body = 6, candles = [], price = 100, shift = 0, last = 0, running = true;
+    function next() {
+      var o = price, v = (Math.random() - .48) * 2.2, c = Math.max(40, Math.min(160, o + v));
+      var h = Math.max(o, c) + Math.random() * 1.4, l = Math.min(o, c) - Math.random() * 1.4;
+      price = c; return { o: o, c: c, h: h, l: l };
+    }
+    function size() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var need = Math.ceil(W / gap) + 3; while (candles.length < need) candles.push(next());
+      draw();
+    }
+    function y(p, lo, hi) { var top = H * .16, span = H * .5; return top + span - (p - lo) / (hi - lo || 1) * span; }
+    function draw() {
+      cx.clearRect(0, 0, W, H);
+      var lo = Infinity, hi = -Infinity;
+      candles.forEach(function (k) { if (k.l < lo) lo = k.l; if (k.h > hi) hi = k.h; });
+      lo -= 4; hi += 4;
+      cx.strokeStyle = "rgba(255,255,255,.035)"; cx.lineWidth = 1;
+      for (var g = 0; g < 5; g++) { var gy = Math.round(H * .16 + H * .5 * g / 4) + .5; cx.beginPath(); cx.moveTo(0, gy); cx.lineTo(W, gy); cx.stroke(); }
+      candles.forEach(function (k, i) {
+        var x = Math.round(i * gap - shift) + .5, up = k.c >= k.o;
+        cx.strokeStyle = cx.fillStyle = up ? "rgba(232,182,62,.20)" : "rgba(160,166,180,.14)";
+        cx.beginPath(); cx.moveTo(x, y(k.h, lo, hi)); cx.lineTo(x, y(k.l, lo, hi)); cx.stroke();
+        var a = y(Math.max(k.o, k.c), lo, hi), b = y(Math.min(k.o, k.c), lo, hi);
+        cx.fillRect(x - body / 2, a, body, Math.max(1.5, b - a));
+      });
+      cx.beginPath(); cx.strokeStyle = "rgba(244,207,114,.32)"; cx.lineWidth = 1.5;
+      candles.forEach(function (k, i) {
+        var from = Math.max(0, i - 7), sum = 0; for (var j = from; j <= i; j++) sum += candles[j].c;
+        var mx = i * gap - shift, my = y(sum / (i - from + 1), lo, hi); i ? cx.lineTo(mx, my) : cx.moveTo(mx, my);
+      });
+      cx.stroke();
+    }
+    function frame(t) {
+      if (!running) return;
+      if (t - last > 33) {                         // ~30 fps is plenty for a slow drift
+        shift += (t - last) * .012;                // about 12 px per second
+        while (shift >= gap) { shift -= gap; candles.shift(); candles.push(next()); }
+        last = t; draw();
+      }
+      requestAnimationFrame(frame);
+    }
+    size(); addEventListener("resize", size);
+    if (reduce) return;                            // reduced motion: one still frame
+    document.addEventListener("visibilitychange", function () {
+      running = !document.hidden; if (running) { last = performance.now(); requestAnimationFrame(frame); }
+    });
+    requestAnimationFrame(function (t) { last = t; frame(t); });
+  })();
 </script>
 </body>
 </html>
