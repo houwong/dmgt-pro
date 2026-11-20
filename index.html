@@ -127,6 +127,9 @@
   .price s { color: var(--mute); font-size: 14px; }
   .price b { font-size: 26px; letter-spacing: -.8px; color: var(--text); font-weight: 700; }
   .price small { color: var(--dim); font-size: 13px; }
+  .price .next { flex-basis: 100%; font-size: 12.5px; color: var(--gold2); display: inline-flex; align-items: center; gap: 5px; }
+  .price .next i { font-size: 13px; }
+  .nextnote { margin-top: 2px; text-align: right; font-size: 12.5px; color: var(--dim); min-height: 18px; }
   .save { position: absolute; top: -11px; right: 14px; height: 22px; padding: 0 10px; border-radius: 99px; background: var(--gold); color: var(--ink);
           font-size: 11.5px; font-weight: 700; display: inline-flex; align-items: center; }
   .plan ul { list-style: none; margin-top: 12px; display: grid; gap: 6px; }
@@ -394,6 +397,7 @@
       </div>
       <div class="total"><span>Total today</span><b id="sTotal">-</b></div>
       <div class="saved" id="sSaved"></div>
+      <div class="nextnote" id="sNext"></div>
       <div class="steps">
         <div class="step"><i class="ph ph-cursor-click"></i><div><b id="st1t">Pick a plan</b><span id="st1d">Add a discount code if you have one.</span></div></div>
         <div class="step"><i class="ph ph-credit-card"></i><div><b id="st2t">Pay with Stripe</b><span id="st2d">Card, Apple Pay or Google Pay.</span></div></div>
@@ -407,7 +411,7 @@
 <script>
   var API = "https://knzonoqeccgkrumpjfrc.supabase.co/functions/v1/dmgt-order";
   var CFG = { prices: { BASE: { "1 Month": 1800, "Lifetime": 8800 }, PRO: { "1 Month": 2800, "Lifetime": 11800 } },
-              sale_prices: null, sale_ends_at: null, sale_label: null, trial_days: 0, payments: true };
+              sale_prices: null, next_prices: null, sale_ends_at: null, sale_label: null, trial_days: 0, payments: true };
   var $ = function (id) { return document.getElementById(id); };
   var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   function call(action, data) {
@@ -433,6 +437,9 @@
   function usd(c) { return "USD " + (c / 100).toFixed(2); }
   function usdShort(c) { return "USD " + (c % 100 ? (c / 100).toFixed(2) : String(c / 100)); }
   function listOf(e, d) { return CFG.prices[e] && CFG.prices[e][d]; }
+  function nextOf(e, d) { return CFG.next_prices && CFG.next_prices[e] ? CFG.next_prices[e][d] : null; }
+  function endDay() { if (!CFG.sale_ends_at) return ""; try { return new Date(CFG.sale_ends_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "Asia/Kuala_Lumpur" }); } catch (e) { return ""; } }
+  function nextText(e, d) { var day = endDay(); if (!day) return ""; var n = nextOf(e, d); return n ? usdShort(n) + " from " + day : "Normal price from " + day; }
   function saleOf(e, d) { var s = CFG.sale_prices && CFG.sale_prices[e] && CFG.sale_prices[e][d], l = listOf(e, d); return s && l && s < l ? s : null; }
 
   // animated money (state transition on the CTA and total)
@@ -449,7 +456,8 @@
     ["BASE", "PRO"].forEach(function (e) {
       var l = listOf(e, state.duration), s = saleOf(e, state.duration), el = document.querySelector('[data-price="' + e + '"]');
       var per = state.duration === "Lifetime" ? "one-time" : "/ month";
-      el.innerHTML = (s ? "<s>" + usdShort(l) + "</s>" : "") + "<b>" + usdShort(s || l) + "</b><small>" + per + "</small>";
+      el.innerHTML = (s ? "<s>" + usdShort(l) + "</s>" : "") + "<b>" + usdShort(s || l) + "</b><small>" + per + "</small>" +
+        (s && endDay() ? '<span class="next"><i class="ph ph-trend-up"></i>' + nextText(e, state.duration) + "</span>" : "");
       var tag = document.querySelector('[data-save="' + e + '"]');
       tag.hidden = !s; if (s) tag.textContent = "Save " + Math.round((1 - s / l) * 100) + "%";
     });
@@ -464,7 +472,7 @@
     $("saleTag").textContent = CFG.sale_label || "Sale";
     var end = CFG.sale_ends_at ? Date.parse(CFG.sale_ends_at) : NaN;
     if (isNaN(end)) { $("saleText").textContent = "Save up to " + best + "% on every plan"; return; }
-    $("saleText").innerHTML = 'Ends in <span class="clock" id="clock"></span>';
+    $("saleText").innerHTML = (CFG.next_prices ? "Price goes up in " : "Sale ends in ") + '<span class="clock" id="clock"></span>';
     (function tick() {
       var ms = end - Date.now();
       if (ms <= 0) { loadConfig(); return; }
@@ -491,7 +499,7 @@
     $("sType").textContent = trial ? "Free trial" : state.type === "renew" ? "Renewal" : "New licence";
     if (trial) {
       $("sListRow").hidden = true; $("sDiscRow").hidden = true; $("sPriceLbl").textContent = "Price"; $("sPrice").textContent = "Free";
-      tween($("sTotal"), "total", 0, usd); $("sSaved").textContent = "No card needed";
+      tween($("sTotal"), "total", 0, usd); $("sSaved").textContent = "No card needed"; $("sNext").textContent = "";
       return;
     }
     if (!last) return;
@@ -505,6 +513,8 @@
     tween($("sTotal"), "total", last.total, usd);
     var off = last.list_price - last.total;
     $("sSaved").textContent = off > 0 ? "You save " + usd(off) : "";
+    var nx = sale && endDay() ? nextOf(state.edition, state.duration) : null;
+    $("sNext").textContent = sale && endDay() ? (nx ? "Goes up to " + usd(nx) + " on " + endDay() : "Normal price from " + endDay()) : "";
   }
 
   function refreshQuote() {
@@ -649,7 +659,7 @@
     return call("config").then(function (c) {
       if (!c || !c.ok) return;
       if (c.prices && c.prices.BASE && c.prices.PRO) CFG.prices = c.prices;
-      CFG.sale_prices = c.sale_prices || null; CFG.sale_ends_at = c.sale_ends_at || null; CFG.sale_label = c.sale_label || null;
+      CFG.sale_prices = c.sale_prices || null; CFG.next_prices = c.next_prices || null; CFG.sale_ends_at = c.sale_ends_at || null; CFG.sale_label = c.sale_label || null;
       CFG.trial_days = c.trial_days || 0; CFG.payments = !!c.payments;
       var trialOn = CFG.trial_days > 0;
       $("segTrial").hidden = !trialOn; $("heroTrial").hidden = !trialOn;
