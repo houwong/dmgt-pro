@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DMGT Pro · Get your licence</title>
+<meta name="description" content="Order or renew DMGT Pro, the trade management panel for MetaTrader 5. Secure payment, licence key by email.">
+<meta name="theme-color" content="#0a0b0e">
+<meta property="og:title" content="DMGT Pro · Get your licence">
+<meta property="og:description" content="Break-even, smart trailing, profit claiming and risk guards for MetaTrader 5.">
+<meta property="og:type" content="website">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2314161c'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='800' font-size='15' fill='%23e8b63e' text-anchor='middle'%3EDM%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0b0e; --panel: #111318; --panel2: #15181e; --line: rgba(255,255,255,.08); --line2: rgba(255,255,255,.14);
+    --text: #eef1f6; --dim: #8b91a1; --mute: #5f6574; --gold: #e8b63e; --gold2: #f5d17a; --ink: #14161c;
+    --green: #2ed692; --red: #ff6b78; --r: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { font-family: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); min-height: 100vh;
+         -webkit-font-smoothing: antialiased; line-height: 1.5; }
+  body::before { content: ""; position: fixed; inset: 0; pointer-events: none;
+    background: radial-gradient(900px 420px at 50% -120px, rgba(232,182,62,.16), transparent 70%),
+                linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px) 0 0 / 100% 56px; mask-image: linear-gradient(#000 0, transparent 720px); }
+  a { color: var(--gold2); }
+  .wrap { position: relative; max-width: 1080px; margin: 0 auto; padding: 0 20px 64px; }
+
+  /* top bar */
+  .top { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+  .logo { display: flex; align-items: baseline; gap: 7px; text-decoration: none; }
+  .logo b { font-weight: 800; font-size: 21px; letter-spacing: .5px; color: var(--gold); }
+  .logo span { font-weight: 600; font-size: 11px; letter-spacing: 4px; color: var(--text); }
+  .secure { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--dim); }
+  .secure svg { width: 15px; height: 15px; color: var(--green); }
+
+  /* hero */
+  .hero { text-align: center; padding: 44px 0 36px; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 14px; border: 1px solid var(--line2); border-radius: 99px;
+             font-size: 12.5px; color: var(--dim); background: rgba(255,255,255,.02); }
+  .eyebrow i { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 10px var(--gold); }
+  h1 { font-size: clamp(32px, 5vw, 50px); line-height: 1.08; letter-spacing: -1.5px; font-weight: 700; margin: 18px auto 14px; max-width: 760px; }
+  h1 em { font-style: normal; background: linear-gradient(100deg, #b78523, var(--gold) 35%, var(--gold2) 55%, var(--gold)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .lead { color: var(--dim); font-size: 17px; max-width: 560px; margin: 0 auto; }
+
+  /* layout */
+  .grid { display: grid; grid-template-columns: 1fr 380px; gap: 22px; align-items: start; }
+  .card { background: linear-gradient(180deg, var(--panel2), var(--panel)); border: 1px solid var(--line); border-radius: 20px; }
+  form.card { padding: 28px; }
+  aside.card { padding: 24px; position: sticky; top: 20px; }
+
+  .seg { display: grid; grid-template-columns: 1fr 1fr; padding: 4px; gap: 4px; background: #0c0d11; border: 1px solid var(--line); border-radius: 12px; }
+  .seg button { height: 40px; border: 0; border-radius: 9px; background: transparent; color: var(--dim); font: 600 14px "Geist", sans-serif; cursor: pointer; transition: background .15s, color .15s; }
+  .seg button[aria-pressed="true"] { background: #23262e; color: var(--text); box-shadow: 0 1px 0 rgba(255,255,255,.06) inset, 0 4px 14px rgba(0,0,0,.35); }
+  .seg button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+  .sec { margin-top: 26px; }
+  .label { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 9px; }
+  .label small { font-weight: 500; color: var(--mute); font-size: 12px; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  /* plan cards */
+  .plans { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .plan { position: relative; display: block; cursor: pointer; border: 1px solid var(--line); border-radius: var(--r); padding: 16px 16px 14px; background: #0f1115;
+          transition: border-color .15s, background .15s; }
+  .plan input { position: absolute; opacity: 0; pointer-events: none; }
+  .plan:hover { border-color: var(--line2); }
+  .plan.on { border-color: var(--gold); background: linear-gradient(180deg, rgba(232,182,62,.07), rgba(232,182,62,.015)); box-shadow: 0 0 0 3px rgba(232,182,62,.12); }
+  .plan .ph { display: flex; align-items: center; justify-content: space-between; }
+  .plan .nm { font-weight: 700; font-size: 16px; letter-spacing: .5px; }
+  .plan .dot { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--line2); display: grid; place-items: center; }
+  .plan.on .dot { border-color: var(--gold); } .plan.on .dot::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); }
+  .plan .ds { color: var(--dim); font-size: 13px; margin-top: 4px; }
+  .plan .price { font-weight: 700; font-size: 15px; margin-top: 8px; color: var(--gold2); }
+  .plan ul { list-style: none; margin-top: 10px; display: grid; gap: 5px; }
+  .plan li { display: flex; gap: 8px; font-size: 12.5px; color: #c2c7d2; }
+  .plan li svg { flex: none; width: 14px; height: 14px; margin-top: 3px; color: var(--green); }
+  .badge { position: absolute; top: -10px; right: 14px; font-size: 11px; font-weight: 700; letter-spacing: .4px; color: var(--ink); background: var(--gold); padding: 2px 9px; border-radius: 99px; }
+
+  /* inputs */
+  .field { display: flex; flex-direction: column; }
+  input[type=text], input[type=email], textarea {
+    width: 100%; height: 46px; padding: 0 14px; border-radius: 11px; border: 1px solid var(--line2); background: #0c0d11; color: var(--text);
+    font: 500 15px "Geist", sans-serif; transition: border-color .15s, box-shadow .15s; }
+  textarea { height: 84px; padding: 12px 14px; resize: vertical; line-height: 1.45; }
+  input::placeholder, textarea::placeholder { color: #4d5260; }
+  input:focus, textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(232,182,62,.16); }
+  .mono { font-family: "Geist Mono", ui-monospace, monospace !important; letter-spacing: 1px; text-transform: uppercase; }
+  .help { font-size: 12px; color: var(--mute); margin-top: 6px; }
+  .bad input, .bad textarea { border-color: var(--red); }
+  .err { display: none; font-size: 12px; color: var(--red); margin-top: 6px; }
+  .bad .err { display: block; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  .check { display: flex; gap: 11px; align-items: flex-start; font-size: 13.5px; color: var(--dim); cursor: pointer; }
+  .check input { appearance: none; flex: none; width: 19px; height: 19px; margin-top: 1px; border-radius: 6px; border: 1.5px solid var(--line2); background: #0c0d11; cursor: pointer; display: grid; place-items: center; }
+  .check input:checked { background: var(--gold); border-color: var(--gold); }
+  .check input:checked::after { content: ""; width: 9px; height: 5px; border: 2px solid var(--ink); border-top: 0; border-right: 0; transform: rotate(-45deg) translate(1px, -1px); }
+  .check input:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .check.bad { color: var(--red); }
+
+  .cta { margin-top: 24px; width: 100%; height: 52px; border: 0; border-radius: 99px; background: var(--gold); color: var(--ink); cursor: pointer;
+         font: 700 16px "Geist", sans-serif; display: flex; align-items: center; justify-content: center; gap: 10px;
+         box-shadow: 0 10px 30px rgba(232,182,62,.22), inset 0 1px 0 rgba(255,255,255,.45); transition: transform .12s, filter .15s; }
+  .cta:hover { filter: brightness(1.06); } .cta:active { transform: translateY(1px); }
+  .cta[disabled] { opacity: .7; cursor: wait; }
+  .spin { width: 17px; height: 17px; border-radius: 50%; border: 2.5px solid rgba(20,22,28,.3); border-top-color: var(--ink); animation: sp .7s linear infinite; display: none; }
+  .busy .spin { display: block; }
+  @keyframes sp { to { transform: rotate(360deg); } }
+  .trust { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 18px; margin-top: 14px; font-size: 12.5px; color: var(--mute); }
+  .trust span { display: inline-flex; align-items: center; gap: 6px; } .trust svg { width: 14px; height: 14px; color: var(--dim); }
+  .loading { opacity: .55; }
+  .formerr { display: none; margin-top: 14px; padding: 11px 14px; border-radius: 11px; border: 1px solid rgba(255,107,120,.35); background: rgba(255,107,120,.07); color: #ffb3ba; font-size: 13.5px; }
+
+  /* discount code */
+  .coderow { display: grid; grid-template-columns: 1fr auto; gap: 10px; }
+  .apply { height: 46px; padding: 0 20px; border-radius: 11px; border: 1px solid var(--line2); background: #1b1e25; color: var(--text);
+           font: 600 14px "Geist", sans-serif; cursor: pointer; }
+  .apply:hover { border-color: var(--gold); color: var(--gold2); }
+  .codemsg { font-size: 12.5px; margin-top: 7px; min-height: 18px; }
+  .codemsg.ok { color: var(--green); } .codemsg.no { color: var(--red); }
+  .info { margin-bottom: 18px; padding: 11px 14px; border-radius: 11px; border: 1px solid var(--line2); background: rgba(255,255,255,.03); color: var(--dim); font-size: 13.5px; }
+  .paybtn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; margin-top: 22px; height: 54px; padding: 0 34px; border-radius: 99px;
+            background: var(--gold); color: var(--ink); font: 700 16px "Geist", sans-serif; text-decoration: none;
+            box-shadow: 0 10px 30px rgba(232,182,62,.22), inset 0 1px 0 rgba(255,255,255,.45); }
+  .paybtn svg { width: 17px; height: 17px; }
+  .methods { margin-top: 14px; font-size: 12.5px; color: var(--mute); }
+  .sum .kv div.tot span:last-child { font-size: 18px; color: var(--gold2); }
+  .sum .kv div.disc span:last-child { color: var(--green); }
+
+  /* summary */
+  .sum h3 { font-size: 13px; font-weight: 600; color: var(--dim); letter-spacing: .3px; }
+  .sum .big { display: flex; align-items: baseline; gap: 10px; margin-top: 10px; }
+  .sum .big b { font-size: 26px; font-weight: 700; letter-spacing: -.5px; }
+  .sum .big span { color: var(--dim); font-size: 14px; }
+  .sum .kv { margin-top: 16px; border-top: 1px solid var(--line); }
+  .sum .kv div { display: flex; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 13.5px; }
+  .sum .kv div span:first-child { color: var(--dim); } .sum .kv div span:last-child { font-weight: 600; }
+  .steps { margin-top: 20px; display: grid; gap: 14px; }
+  .step { display: grid; grid-template-columns: 28px 1fr; gap: 10px; font-size: 13.5px; color: var(--dim); }
+  .step b { color: var(--text); font-weight: 600; display: block; }
+  .step i { font-style: normal; width: 28px; height: 28px; border-radius: 9px; border: 1px solid var(--line2); display: grid; place-items: center; font: 600 12px "Geist Mono", monospace; color: var(--gold); }
+  .note { margin-top: 18px; padding: 12px 14px; border-radius: 12px; background: rgba(255,255,255,.025); border: 1px solid var(--line); font-size: 12.5px; color: var(--dim); }
+
+  /* success */
+  .done { display: none; text-align: center; padding: 44px 28px 40px; }
+  .done .ok { width: 58px; height: 58px; border-radius: 50%; margin: 0 auto; display: grid; place-items: center; background: rgba(46,214,146,.12); border: 1px solid rgba(46,214,146,.35); }
+  .done .ok svg { width: 26px; height: 26px; color: var(--green); }
+  .done h2 { font-size: 26px; letter-spacing: -.5px; margin-top: 18px; }
+  .done p { color: var(--dim); margin: 10px auto 0; max-width: 430px; font-size: 15px; }
+  .done .ref { display: inline-block; margin-top: 18px; padding: 8px 14px; border-radius: 10px; border: 1px solid var(--line2); font: 500 13px "Geist Mono", monospace; color: var(--dim); }
+  footer { text-align: center; color: var(--mute); font-size: 12px; margin-top: 40px; }
+
+  [hidden] { display: none !important; }
+  @media (max-width: 880px) { .grid { grid-template-columns: 1fr; } aside.card { position: static; } .hero { padding: 26px 0 26px; } }
+  @media (max-width: 520px) { form.card { padding: 20px 16px; } .plans, .row2 { grid-template-columns: 1fr; } .secure span { display: none; } .lead { font-size: 15.5px; } }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="./"><b>DMGT</b><span>PRO</span></a>
+    <div class="secure">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      <span>Secure order · licence delivered by email</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow"><i></i>Trade manager for MetaTrader 5</div>
+    <h1 id="heroTitle">Get your <em>DMGT Pro</em> licence</h1>
+    <p class="lead" id="heroLead">Break-even, smart trailing, profit claiming and risk guards in one click. Fill in the form and your licence key arrives by email once payment is confirmed.</p>
+  </section>
+
+  <div class="grid">
+    <div>
+      <form class="card" id="f" novalidate>
+        <div class="info" id="cancelInfo" hidden>Payment cancelled - nothing was charged. You can try again below.</div>
+        <div class="seg" role="group" aria-label="Request type">
+          <button type="button" data-type="new" aria-pressed="true">New licence</button>
+          <button type="button" data-type="renew" aria-pressed="false">Renew my licence</button>
+        </div>
+
+        <div class="sec field" id="keyBox" hidden>
+          <label class="label" for="key">Licence key <small>from your welcome email</small></label>
+          <input type="text" id="key" class="mono" placeholder="DMGT-XXXX-XXXX-XXXX-XXXX" autocomplete="off" maxlength="24">
+          <div class="err">Enter your key in the form DMGT-XXXX-XXXX-XXXX-XXXX.</div>
+        </div>
+
+        <div class="sec">
+          <div class="label">Edition</div>
+          <div class="plans" role="radiogroup" aria-label="Edition">
+            <label class="plan" data-plan="BASE">
+              <input type="radio" name="edition" value="BASE">
+              <div class="ph"><span class="nm">BASE</span><span class="dot"></span></div>
+              <div class="ds">The full trade panel</div>
+              <div class="price" data-price="BASE"></div>
+              <ul>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Break-even, 5 trailing modes, runner</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Claim preview, Clear &amp; keep</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>News, margin &amp; time guards</li>
+              </ul>
+            </label>
+            <label class="plan" data-plan="PRO">
+              <span class="badge">Most popular</span>
+              <input type="radio" name="edition" value="PRO">
+              <div class="ph"><span class="nm">PRO</span><span class="dot"></span></div>
+              <div class="ds">Panel + Telegram control</div>
+              <div class="price" data-price="PRO"></div>
+              <ul>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Everything in BASE</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Control trades from your phone</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Alerts, /chart, daily summary</li>
+              </ul>
+            </label>
+          </div>
+        </div>
+
+        <div class="sec">
+          <div class="label">Duration</div>
+          <div class="seg" role="group" aria-label="Duration" id="dur">
+            <button type="button" data-dur="1 Month" aria-pressed="true">1 Month</button>
+            <button type="button" data-dur="Lifetime" aria-pressed="false">Lifetime</button>
+          </div>
+        </div>
+
+        <div class="sec field" id="codeBox">
+          <label class="label" for="code">Discount code <small>optional</small></label>
+          <div class="coderow">
+            <input type="text" id="code" class="mono" placeholder="ENTER CODE" maxlength="30" autocomplete="off">
+            <button type="button" class="apply" id="applyCode">Apply</button>
+          </div>
+          <div class="codemsg" id="codeMsg"></div>
+        </div>
+
+        <div class="sec row2">
+          <div class="field" id="nameBox">
+            <label class="label" for="name">Full name</label>
+            <input type="text" id="name" placeholder="John Tan" autocomplete="name" maxlength="120">
+            <div class="err">Please enter your name.</div>
+          </div>
+          <div class="field" id="emailBox">
+            <label class="label" for="email">Email</label>
+            <input type="email" id="email" placeholder="you@example.com" autocomplete="email" maxlength="160">
+            <div class="err">Please enter a valid email.</div>
+          </div>
+        </div>
+
+        <div class="sec field">
+          <label class="label" for="contact">Telegram or WhatsApp <small>optional</small></label>
+          <input type="text" id="contact" placeholder="@username or +60 12-345 6789" maxlength="80">
+          <div class="help">Only used to reach you about your order.</div>
+        </div>
+
+        <div class="sec field">
+          <label class="label" for="notes">Note <small>optional</small></label>
+          <textarea id="notes" placeholder="e.g. referral, question, MT5 broker" maxlength="500"></textarea>
+        </div>
+
+        <div class="hp" aria-hidden="true"><label>Website <input type="text" id="website" tabindex="-1" autocomplete="off"></label></div>
+
+        <div class="sec">
+          <label class="check" id="agreeBox"><input type="checkbox" id="agree">
+            <span>I understand DMGT Pro manages my existing MetaTrader 5 positions and does not open trades, and that trading involves risk.</span></label>
+        </div>
+
+        <button class="cta" type="submit" id="go"><span class="spin"></span><span id="goTxt">Continue to payment</span></button>
+        <div class="formerr" id="formErr" role="alert"></div>
+        <div class="trust">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Secure payment by Stripe</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg>Instant key by email</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg>Free updates</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>MT5 desktop &amp; VPS</span>
+        </div>
+      </form>
+
+      <div class="card done" id="pay" aria-live="polite">
+        <div class="ok" style="background:rgba(232,182,62,.12);border-color:rgba(232,182,62,.4)"><svg style="color:var(--gold)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/></svg></div>
+        <h2>Almost done</h2>
+        <p id="payText">Complete your payment on Stripe's secure page.</p>
+        <a class="paybtn" id="payLink" href="#"><span id="payLabel">Pay securely</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <div class="methods">Card · Apple Pay · Google Pay — processed by Stripe. We never see your card details.</div>
+        <div class="ref" id="payRef"></div>
+      </div>
+
+      <div class="card done" id="done" aria-live="polite">
+        <div class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></div>
+        <h2 id="doneTitle">Order received</h2>
+        <p id="doneText"></p>
+        <div class="ref" id="doneRef"></div>
+      </div>
+    </div>
+
+    <aside class="card sum" aria-label="Order summary">
+      <h3>Your order</h3>
+      <div class="big"><b id="sEdition">PRO</b><span id="sDuration">1 Month</span></div>
+      <div class="kv">
+        <div><span>Request</span><span id="sType">New licence</span></div>
+        <div><span>Price</span><span id="sPrice">-</span></div>
+        <div class="disc" id="sDiscRow" hidden><span id="sDiscLbl">Discount</span><span id="sDisc">-</span></div>
+        <div class="tot"><span>Total</span><span id="sTotal">-</span></div>
+        <div><span>Computers</span><span>1 (resettable)</span></div>
+      </div>
+      <div class="steps">
+        <div class="step"><i>1</i><div><b>Choose your plan</b>Add a discount code if you have one.</div></div>
+        <div class="step"><i>2</i><div><b>Pay securely</b>Card, Apple Pay or Google Pay on Stripe's checkout.</div></div>
+        <div class="step"><i>3</i><div><b id="step3t">Get your key</b><span id="step3d">Licence key, download link and setup guide arrive by email within a minute.</span></div></div>
+      </div>
+      <div class="note">Check your Spam or Promotions folder if the email does not arrive within a few minutes after payment.</div>
+    </aside>
+  </div>
+
+  <footer>© DMGT Pro · MetaTrader 5 trade management panel · Trading involves risk.</footer>
+</div>
+
+<script>
+  var API = "https://knzonoqeccgkrumpjfrc.supabase.co/functions/v1/dmgt-order";
+  var CFG = { prices: { BASE: { "1 Month": 1800, "Lifetime": 8800 }, PRO: { "1 Month": 2800, "Lifetime": 11800 } }, payments: true };
+  function call(action, data) {
+    return fetch(API, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(Object.assign({ action: action }, data || {})) })
+      .then(function (r) { return r.json().catch(function () { return { ok: false, error: "Server error (" + r.status + ")" }; }); });
+  }
+  var PREFILL = (function () {
+    var q = new URLSearchParams(location.search), g = function (k) { return String(q.get(k) || ""); };
+    return {
+      type: g("type") === "renew" ? "renew" : "new",
+      key: g("key").toUpperCase().replace(/[^0-9A-Z-]/g, "").slice(0, 24),
+      edition: g("edition").toUpperCase() === "BASE" ? "BASE" : "PRO",
+      duration: g("duration").toLowerCase().indexOf("life") === 0 ? "Lifetime" : "1 Month",
+      paid: g("paid").replace(/[^0-9A-Z]/gi, "").slice(0, 30),
+      cancel: g("cancel").replace(/[^0-9A-Z]/gi, "").slice(0, 30),
+      code: g("code").toUpperCase().replace(/[^A-Z0-9_-]/g, "").slice(0, 30),
+    };
+  })();
+  var state = { type: "new", edition: "PRO", duration: "1 Month" };
+  var $ = function (id) { return document.getElementById(id); };
+
+  function setType(t) {
+    state.type = t;
+    document.querySelectorAll(".seg [data-type]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.type === t)); });
+    $("keyBox").hidden = t !== "renew";
+    $("heroTitle").innerHTML = t === "renew" ? "Renew your <em>DMGT Pro</em> licence" : "Get your <em>DMGT Pro</em> licence";
+    $("heroLead").textContent = t === "renew"
+      ? "Keep the same key and settings. Choose your edition and duration, and we extend your licence as soon as payment is confirmed."
+      : "Break-even, smart trailing, profit claiming and risk guards in one click. Fill in the form and your licence key arrives by email once payment is confirmed.";
+    updateCta();
+    $("sType").textContent = t === "renew" ? "Renewal" : "New licence";
+    $("step3t").textContent = t === "renew" ? "Licence extended" : "Get your key";
+    $("step3d").textContent = t === "renew" ? "Extended right after payment - your panel picks it up automatically." : "Licence key, download link and setup guide arrive by email within a minute.";
+  }
+  var quoteSeq = 0, last = null;
+  function usd(c) { return "USD " + (c / 100).toFixed(2); }
+  function updateCta() {
+    $("goTxt").textContent = (CFG.payments ? (state.type === "renew" ? "Renew" : "Continue to payment") : (state.type === "renew" ? "Request renewal" : "Send order"))
+      + (last ? " · " + usd(last.total) : "");
+  }
+  function refreshQuote() {
+    var my = ++quoteSeq;
+    $("sTotal").classList.add("loading");
+    call("quote", { edition: state.edition, duration: state.duration, code: state.code }).then(function (q) {
+      if (my !== quoteSeq) return;
+      $("sTotal").classList.remove("loading");
+      if (!q || !q.ok) { if (state.code) { $("codeMsg").textContent = "Could not check the code - please try again."; $("codeMsg").className = "codemsg no"; } return; }
+      last = q;
+      $("sPrice").textContent = usd(q.price);
+      $("sDiscRow").hidden = !(q.discount > 0);
+      $("sDiscLbl").textContent = "Discount" + (q.code_ok ? " (" + q.code + ")" : "");
+      $("sDisc").textContent = "- " + usd(q.discount);
+      $("sTotal").textContent = usd(q.total);
+      var m = $("codeMsg");
+      if (state.code) { m.textContent = q.code_ok ? q.code_msg + " applied" : q.code_msg; m.className = "codemsg " + (q.code_ok ? "ok" : "no"); if (!q.code_ok) state.code = ""; }
+      else { m.textContent = ""; m.className = "codemsg"; }
+      updateCta();
+    }).catch(function () { if (my === quoteSeq) $("sTotal").classList.remove("loading"); });
+  }
+  function setEdition(e) {
+    state.edition = e;
+    document.querySelectorAll(".plan").forEach(function (p) { var on = p.dataset.plan === e; p.classList.toggle("on", on); p.querySelector("input").checked = on; });
+    $("sEdition").textContent = e; showPrices(); refreshQuote();
+  }
+  function setDuration(d) {
+    state.duration = d;
+    document.querySelectorAll("#dur [data-dur]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.dur === d)); });
+    $("sDuration").textContent = d; showPrices(); refreshQuote();
+  }
+  function showPrices() {
+    document.querySelectorAll("[data-price]").forEach(function (el) {
+      var c = CFG.prices[el.dataset.price] && CFG.prices[el.dataset.price][state.duration];
+      el.textContent = c ? "USD " + Math.round(c / 100) + (state.duration === "Lifetime" ? " one-time" : " / month") : "";
+      el.hidden = !c;
+    });
+  }
+  function applyMode() {   // Stripe not connected yet -> manual wording
+    if (CFG.payments) return;
+    document.querySelector(".trust span").lastChild.textContent = "Safe ordering";
+    document.querySelectorAll(".steps .step")[1].querySelector("div").innerHTML = "<b>Pay</b>We send you the payment details right after your order.";
+    document.querySelector("#pay .methods").textContent = "";
+  }
+  document.querySelectorAll(".seg [data-type]").forEach(function (b) { b.addEventListener("click", function () { setType(b.dataset.type); }); });
+  document.querySelectorAll("#dur [data-dur]").forEach(function (b) { b.addEventListener("click", function () { setDuration(b.dataset.dur); }); });
+  document.querySelectorAll(".plan").forEach(function (p) { p.addEventListener("click", function () { setEdition(p.dataset.plan); }); });
+  $("applyCode").addEventListener("click", function () {
+    state.code = $("code").value.trim().toUpperCase().replace(/[^A-Z0-9_-]/g, "");
+    $("code").value = state.code;
+    $("codeMsg").textContent = state.code ? "Checking..." : ""; $("codeMsg").className = "codemsg";
+    refreshQuote();
+  });
+  $("code").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); $("applyCode").click(); } });
+  $("key").addEventListener("input", function () {
+    var v = this.value.toUpperCase().replace(/[^0-9A-Z]/g, "");
+    if (v.indexOf("DMGT") === 0) v = v.slice(4);
+    v = v.slice(0, 16); var parts = v.match(/.{1,4}/g) || [];
+    this.value = v ? "DMGT-" + parts.join("-") : "";
+  });
+
+  function bad(id, on) { $(id).classList.toggle("bad", on); return on; }
+  $("f").addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    $("formErr").style.display = "none";
+    var d = { type: state.type, edition: state.edition, duration: state.duration, code: state.code, name: $("name").value.trim(), email: $("email").value.trim(),
+              contact: $("contact").value.trim(), notes: $("notes").value.trim(), key: $("key").value.trim(), website: $("website").value };
+    var err = false;
+    err = bad("nameBox", !d.name) || err;
+    err = bad("emailBox", !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email)) || err;
+    if (d.type === "renew") err = bad("keyBox", !/^DMGT-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}$/.test(d.key)) || err; else bad("keyBox", false);
+    err = bad("agreeBox", !$("agree").checked) || err;
+    if (err) { var first = document.querySelector(".bad input, .bad"); if (first && first.focus) first.focus(); return; }
+    var btn = $("go"); btn.disabled = true; btn.classList.add("busy");
+    call("checkout", d).then(function (r) {
+        btn.disabled = false; btn.classList.remove("busy");
+        if (!r || !r.ok) { $("formErr").textContent = (r && r.error) || "Something went wrong. Please try again."; $("formErr").style.display = "block"; return; }
+        if (r.url) {
+          $("f").style.display = "none"; $("pay").style.display = "block";
+          $("payText").textContent = "Your order is ready. Complete your payment of " + usd(r.total) + " on Stripe's secure page - your " + (d.type === "renew" ? "renewal is applied" : "licence key is emailed") + " right after.";
+          $("payLabel").textContent = "Pay " + usd(r.total) + " securely";
+          $("payLink").href = r.url; $("payRef").textContent = "Order " + r.ref;
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          setTimeout(function () { location.href = r.url; }, 600);
+          return;
+        }
+        if (r.free) { showPaid(r.ref, d.type, d.email); return; }
+        $("f").style.display = "none"; $("done").style.display = "block";
+        $("doneTitle").textContent = d.type === "renew" ? "Renewal requested" : "Order received";
+        $("doneText").textContent = d.type === "renew"
+          ? "Thank you, " + d.name.split(" ")[0] + ". We will send you the payment details, then extend " + d.key + ". You will get a confirmation email at " + d.email + "."
+          : "Thank you, " + d.name.split(" ")[0] + ". We will send you the payment details. Your licence key and download link will be sent to " + d.email + " once payment is confirmed.";
+        $("doneRef").textContent = "Reference " + r.ref;
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }).catch(function () { btn.disabled = false; btn.classList.remove("busy"); $("formErr").textContent = "Connection problem. Please check your internet and try again."; $("formErr").style.display = "block"; });
+  });
+
+  function showPaid(ref, type, email) {
+    $("f").style.display = "none"; $("pay").style.display = "none"; $("done").style.display = "block";
+    $("doneTitle").textContent = "Payment received";
+    $("doneText").textContent = (type === "renew" ? "Thank you! Your licence is being renewed now - you will get a confirmation email" : "Thank you! Your licence key, download link and setup guide are being emailed")
+      + (email ? " to " + email : "") + " within a minute. Please check Spam or Promotions if you do not see it.";
+    $("doneRef").textContent = "Order " + ref;
+    window.scrollTo(0, 0);
+    var tries = 0;
+    (function poll() {
+      call("order", { ref: ref }).then(function (o) {
+        if (o && o.ok && o.status === "fulfilled") {
+          $("doneTitle").textContent = o.request === "Renew" ? "Licence renewed" : "You're all set";
+          $("doneText").textContent = o.request === "Renew"
+            ? "Your licence has been extended and a confirmation email is on its way. Your panel picks it up automatically."
+            : "Your licence key, download link and setup guide have been emailed. Please check Spam or Promotions if you do not see it.";
+          return;
+        }
+        if (o && o.ok && (o.status === "error")) {
+          $("doneText").textContent = "Payment received - we are finishing your order by hand and will email you shortly.";
+          return;
+        }
+        if (++tries < 20) setTimeout(poll, 3000);
+      }).catch(function () {});
+    })();
+  }
+  function track() { if (history.replaceState && (PREFILL.paid || PREFILL.cancel)) history.replaceState(null, "", location.pathname + (PREFILL.type === "renew" && PREFILL.key ? "?type=renew&key=" + PREFILL.key : "")); }
+  setType(PREFILL && PREFILL.type === "renew" ? "renew" : "new");
+  setEdition(PREFILL && PREFILL.edition === "BASE" ? "BASE" : "PRO");
+  setDuration(PREFILL && PREFILL.duration === "Lifetime" ? "Lifetime" : "1 Month");
+  if (PREFILL && PREFILL.key) { $("key").value = PREFILL.key; $("key").dispatchEvent(new Event("input")); }
+  if (PREFILL.code) { $("code").value = PREFILL.code; state.code = PREFILL.code; refreshQuote(); }
+  if (PREFILL.paid) showPaid(PREFILL.paid, PREFILL.type, "");
+  if (PREFILL.cancel) $("cancelInfo").hidden = false;
+  track();
+  call("config").then(function (c) {
+    if (!c || !c.ok) return;
+    if (c.prices && c.prices.BASE && c.prices.PRO) CFG.prices = c.prices;
+    CFG.payments = !!c.payments;
+    showPrices(); applyMode(); updateCta();
+  }).catch(function () {});
+</script>
+</body>
+</html>
